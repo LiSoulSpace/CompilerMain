@@ -1,0 +1,19 @@
+
+a   :id type:int 
+b   :id type:int 
+c   :id type:int 
+(   :op 
+)   :op 
++   :op 
+-   :op 
+int   :type 
+1   :int10 
+2   :int10 
+else   :keyword 
+;   :op 
+{   :op 
+=   :op 
+if   :keyword 
+}   :op 
+>   :op 
+
