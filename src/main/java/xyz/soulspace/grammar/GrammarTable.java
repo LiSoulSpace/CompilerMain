@@ -53,7 +53,6 @@ public class GrammarTable {
                 String[] res = s.split("->");
                 String left = res[0].trim();
                 Nonterminal n = new Nonterminal(left);
-                System.out.println(n);
             }
 
             for (String s : grammarList) {
@@ -136,7 +135,6 @@ public class GrammarTable {
         outputDepends(depends);
 
         while (!depends.isEmpty()) {
-            System.out.println(depends);
             Nonterminal root = getRootFromDepends(depends);
             genFollowSet(depends, tempFollow, root);
             depends.remove(root);
