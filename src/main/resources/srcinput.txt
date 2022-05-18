@@ -1,11 +1,11 @@
  int a;
  float d;
  a=2;
- b=1222.2222.22;
- c=22.2;
  d=2.2;
- e= 'c';
  if(a>b)
-  c=a+b;
+  c = a + b;
+  c  = c + c;
  else
   c=a-b;
+ while(c<5)
+ c=c-1;

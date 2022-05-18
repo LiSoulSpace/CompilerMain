@@ -2,6 +2,8 @@ package xyz.soulspace.grammar;
 
 import xyz.soulspace.lexer.Token;
 import xyz.soulspace.grammar.ActionTable.Action;
+import xyz.soulspace.semantic.GrammarTree;
+import xyz.soulspace.semantic.GrammarTree.TreeNode;
 
 import java.util.List;
 import java.util.Objects;
@@ -32,7 +34,7 @@ public class LRParser {
 
         int cursor = 0;
         String terminal = input.get(cursor++).toTerminal();
-        boolean finished = false;
+        boolean isFinished = false;
 
         do {
             Action action = lrSet.actionTable.getAction(statusStack.peek(), terminal);
@@ -65,18 +67,71 @@ public class LRParser {
                     symbolStack.push(action.item.left.getTag());
                 }
                 case Action.ACTION_FINISHED -> {
-                    finished = true;
+                    isFinished = true;
                 }
                 case Action.ACTION_ERROR -> {
                     System.out.println("Error terminal:" + terminal + "@" + (cursor - 1));
 
                 }
             }
-        } while (!finished);
+        } while (!isFinished);
         return true;
     }
 
-
+    public boolean parse(List<Token> tokens, GrammarTree grammarTree) {
+        input = tokens;
+        statusStack.clear();
+        symbolStack.clear();
+        statusStack.add(0);
+        symbolStack.add(GrammarTable.END);
+        int cursor = 0;
+        String terminal = tokens.get(cursor++).toTerminal();
+        boolean isFinished = false;
+        do {
+            Action action = lrSet.actionTable.getAction(statusStack.peek(), terminal);
+            switch (action.mode) {
+                case Action.ACTION_SHIFT_IN -> {
+                    statusStack.push(action.groupID);
+                    symbolStack.push(terminal);
+                    grammarTree.pushGenStack(new TreeNode(tokens.get(cursor - 1)));
+                    if (cursor < input.size()) {
+                        terminal = input.get(cursor++).toTerminal();
+                    } else terminal = GrammarTable.END;
+                }
+                case Action.ACTION_REDUCTION -> {
+                    assert action.item != null;
+                    if (Objects.equals(action.item.right[0], GrammarTable.EMPTY)) {
+                        System.out.println(action.groupID);
+                        statusStack.push(lrSet.gotoTable.go2(statusStack.peek(), action.item.left));
+                        symbolStack.push(action.item.left.getTag());
+                        grammarTree.pushGenStack(new TreeNode(tokens.get(cursor - 1)));
+                        break;
+                    } else {
+                        System.out.println(statusStack.peek());
+                        for (int i = 0; i < Objects.requireNonNull(action.item).right.length; ++i) {
+                            statusStack.pop();
+                            symbolStack.pop();
+                            grammarTree.popGenStack2Workspace();
+                        }
+                    }
+                    System.out.println(action.item.left);
+                    System.out.printf("%s", "[" + statusStack.peek() + "-" + action.item.left + ']');
+                    System.out.println(lrSet.gotoTable.go2(statusStack.peek(), action.item.left));
+                    statusStack.push(lrSet.gotoTable.go2(statusStack.peek(), action.item.left));
+                    symbolStack.push(action.item.left.getTag());
+                    grammarTree.addParent4Workspace(action.item);
+                }
+                case Action.ACTION_FINISHED -> {
+                    grammarTree.popGenStackToRoot();
+                    isFinished = true;
+                }case Action.ACTION_ERROR -> {
+                    System.out.println("wrong terminal:" + terminal + "@" + (cursor - 1));
+                    return false;
+                }
+            }
+        } while (!isFinished);
+        return true;
+    }
 
     public Stack<Integer> getStatusStack() {
         return statusStack;

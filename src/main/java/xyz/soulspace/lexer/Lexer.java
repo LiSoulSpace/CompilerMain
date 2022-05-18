@@ -103,7 +103,7 @@ public class Lexer {
                                 Operator operator = (Operator) token;
                                 cursor += operator.width();
                                 return operator;
-                            } else if (isWhiteChar(head) || head == '\t') {
+                            } else if (Character.isWhitespace(head)) {
                                 cursor++;
                                 return new Token(Tag.HLPCHR);
                             } else {
@@ -136,7 +136,9 @@ public class Lexer {
                         }
                         break;
                     case word:
-                        if (isWhiteChar(head)) {
+                        System.out.println(head);
+                        if (Character.isWhitespace(head)) {
+                            System.out.println(sb.toString());
                             Token token = Keyword.isKeyword(sb.toString());
                             if (!Objects.equals(token.getTag(), Tag.ERROR)) {
                                 return token;
@@ -145,7 +147,7 @@ public class Lexer {
                             if (!Objects.equals(token.getTag(), Tag.ERROR)) {
                                 return token;
                             }
-                            return new Token(Tag.ERROR);
+                            return new Id(sb.toString());
                         }
                         if (!Objects.equals(containsOperator(srcBuffer.substring(cursor, cursor + 1)).getTag(), Tag.ERROR)) {
                             Token token = Keyword.isKeyword(sb.toString());

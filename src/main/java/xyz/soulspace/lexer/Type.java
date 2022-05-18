@@ -24,13 +24,10 @@ public class Type extends Token {
     }
 
     public static Token isType(String s) {
-        switch (s) {
-            case INT:
-                return new Type(INT);
-            case FLOAT:
-                return new Type(FLOAT);
-            default:
-                return new Token(Tag.ERROR);
-        }
+        return switch (s) {
+            case INT -> new Type(INT);
+            case FLOAT -> new Type(FLOAT);
+            default -> new Token(Tag.ERROR);
+        };
     }
 }

@@ -13,7 +13,7 @@ public class GrammarTable {
     public static final String USER_DIR = System.getProperty("user.dir");
     public static final String RESOURCES_DIR = USER_DIR + "/src/main/resources";
     public static final String fir = "fir";
-    public static String grammarFileName = "Grammar_main.txt";
+    public static String grammarFileName = "Grammar_b.txt";
     public static Map<String, Nonterminal> nonterminalMap = new HashMap<>();
 
     public static List<String> nonterminalList = new ArrayList<>();
@@ -36,6 +36,10 @@ public class GrammarTable {
         genFollowSet();
     }
 
+    /**
+     * 读取文法文件并且获取文法
+     * @throws IOException IOException
+     */
     private void generateFullGrammar() throws IOException {
         String grammarFilePath = RESOURCES_DIR + '/' + grammarFileName;
         File f = new File(grammarFilePath);
@@ -72,9 +76,14 @@ public class GrammarTable {
         }
     }
 
+    /**
+     * 从增广文法头部开始 fir 计算FirstSet
+     */
     private void genFirstSet() {
         String[] strS = grammars.get(new Nonterminal("fir")).right.rightSides.get(0);
+        //获取S的First集
         firstSet.put(Nonterminal.getInstanceByTag(strS[0]), genFirstSet(new Nonterminal(strS[0])));
+        //对于每一个文法语句，获取文法左侧非终结符对应的First集
         grammars.values().forEach(grammarFomula -> {
             if (!firstSet.containsKey(grammarFomula.left)) {
                 firstSet.put(grammarFomula.left, genFirstSet(grammarFomula.left));
@@ -82,6 +91,11 @@ public class GrammarTable {
         });
     }
 
+    /**
+     * 计算某一个非终结符的First集
+     * @param n 非终结符
+     * @return n的First集
+     */
     private Set<String> genFirstSet(Nonterminal n) {
         if (firstSet.get(n) != null) {
             return firstSet.get(n);
