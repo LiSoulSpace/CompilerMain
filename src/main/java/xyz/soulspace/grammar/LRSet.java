@@ -38,18 +38,26 @@ public class LRSet {
     public void genItemGroups() {
         //获取增广文法中FIR对应的项集闭包
         addGroup(genMoveForItem.closure(genMoveForItem.genRootItem()));
-        System.out.println(itemGroups);
         //从0开始生成项集族
         genItemGroups(0);
     }
 
+    /**
+     * 生成id对应的项集放入到finishedGroups
+     *
+     * @param id 项集id
+     */
     public void genItemGroups(int id) {
+        if (id == 10)
+            System.out.println("test");
+
         if (integerSet.getOrDefault(id, 0) > 3) return;
         integerSet.put(id, integerSet.getOrDefault(id, 0) + 1);
         if (finishedGroups.contains(id)) return;
         AtomicReference<ItemGroup> tempGroup = new AtomicReference<>();
         Map<String, Set<SLRItem>> edgeNGroup = new HashMap<>();
         List<Integer> nextIDs = new LinkedList<>();
+
         itemGroups.get(id).getItems().forEach(item -> {
             if (item.prefixLength == item.right.length) {
                 genMoveForItem.genReduction4Item(id, item);
@@ -81,7 +89,6 @@ public class LRSet {
         GrammarTable.getTerminalList().forEach(edge -> {
             if (edgeNGroup.containsKey(edge)) {
                 if (Objects.equals(edge, GrammarTable.EMPTY)) {
-                    System.out.println("Hello Empty " + edgeNGroup.get(edge));
                     tempGroup.set(new ItemGroup(edgeNGroup.get(edge)));
                     int nextID = addGroup(tempGroup.get());
                     edgeNGroup.get(edge).forEach(item -> {
@@ -107,6 +114,7 @@ public class LRSet {
     public int addGroup(ItemGroup newGroup) {
         for (ItemGroup group : itemGroups) {
             if (group.getItems().containsAll(newGroup.getItems())) {
+                if (group.getItems().size() != newGroup.getItems().size()) continue;
                 return group.getID();
             }
         }

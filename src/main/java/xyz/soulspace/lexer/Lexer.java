@@ -24,26 +24,35 @@ public class Lexer {
     List<Token> tokenList;
 
     public Lexer(File f) throws IOException {
-        this(f, null);
+        this(f, null, null);
     }
 
-    public Lexer(File f, SymbolTable st) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
-        String temp;
-        StringBuilder sb = new StringBuilder();
-        while (true) {
-            temp = bufferedReader.readLine();
-            if (temp == null) break;
-            sb.append(temp);
-            if (!temp.substring(temp.length() - 1).equals(";")) {
-                sb.append(CHAR_END);
+    public Lexer(String buffer) throws IOException {
+        this(null, buffer, null);
+    }
+
+    public Lexer(File f, String buffer, SymbolTable st) throws IOException {
+        if (f == null) {
+            this.srcBuffer = buffer;
+        } else {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
+            String temp;
+            StringBuilder sb = new StringBuilder();
+            while (true) {
+                temp = bufferedReader.readLine();
+                if (temp == null) break;
+                sb.append(temp);
+                if (!temp.substring(temp.length() - 1).equals(";")) {
+                    sb.append(CHAR_END);
+                }
             }
+            srcBuffer = sb.toString();
+            bufferedReader.close();
         }
-        srcBuffer = sb.toString();
         srcLength = srcBuffer.length();
         tokenList = new ArrayList<>();
-        bufferedReader.close();
         symbolTable = st;
+
     }
 
     public boolean parse() {

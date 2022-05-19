@@ -13,7 +13,7 @@ public class GrammarTable {
     public static final String USER_DIR = System.getProperty("user.dir");
     public static final String RESOURCES_DIR = USER_DIR + "/src/main/resources";
     public static final String fir = "fir";
-    public static String grammarFileName = "Grammar_b.txt";
+    public static String grammarFileName = "Grammar_main.txt";
     public static Map<String, Nonterminal> nonterminalMap = new HashMap<>();
 
     public static List<String> nonterminalList = new ArrayList<>();
@@ -22,15 +22,24 @@ public class GrammarTable {
 
     public static List<String> terminalList = new ArrayList<>();
 
-    private Grammars grammars;
-    private FirstSet firstSet;
-    private FollowSet followSet;
+    private final Grammars grammars;
+    private final FirstSet firstSet;
+    private final FollowSet followSet;
     private String srcBuffer;
 
-    public void cookGrammar() throws IOException {
+    public GrammarTable(){
         grammars = new Grammars();
         firstSet = new FirstSet();
         followSet = new FollowSet();
+    }
+
+    public GrammarTable(String grammarFileName) {
+        this();
+        GrammarTable.grammarFileName = grammarFileName;
+    }
+
+    public void cookGrammar() throws IOException {
+
         generateFullGrammar();
         genFirstSet();
         genFollowSet();
@@ -38,6 +47,7 @@ public class GrammarTable {
 
     /**
      * 读取文法文件并且获取文法
+     *
      * @throws IOException IOException
      */
     private void generateFullGrammar() throws IOException {
@@ -93,6 +103,7 @@ public class GrammarTable {
 
     /**
      * 计算某一个非终结符的First集
+     *
      * @param n 非终结符
      * @return n的First集
      */

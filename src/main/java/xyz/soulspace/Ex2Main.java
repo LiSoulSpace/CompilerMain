@@ -51,6 +51,5 @@ public class Ex2Main {
         LRParser lp = new LRParser(lr1Set);
         boolean result = lp.parse(lexer.getTokenList());
         System.out.println(result);
-
     }
 }

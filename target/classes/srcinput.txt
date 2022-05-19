@@ -2,10 +2,12 @@
  float d;
  a=2;
  d=2.2;
- if(a>b)
+ if(a>b){
   c = a + b;
-  c  = c + c;
+  c  = c + c;}
  else
   c=a-b;
  while(c<5)
  c=c-1;
+ if(a>b)
+ a=a+1;

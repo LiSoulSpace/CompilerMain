@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
@@ -27,6 +28,7 @@ public class LR1Set extends LRSet implements LRSetInterface {
 
     /**
      * 计算 项seed 的闭包
+     *
      * @param seed 要计算的项
      * @return seed对应的闭包
      */
@@ -34,22 +36,29 @@ public class LR1Set extends LRSet implements LRSetInterface {
     public ItemGroup closure(SLRItem seed) {
         Set<SLRItem> items = new HashSet<>();
         items.add(seed);
-        if (seed.prefixLength < seed.right.length) {
-            Nonterminal nonterminal = Nonterminal.getInstanceByTag(seed.right[seed.prefixLength]);
-            if (nonterminal != null) {
-                closureItr(items, nonterminal, calEnd4((LR1Item) seed));
-            }
+        boolean isChanged = true;
+        while (isChanged) {
+//            System.out.println(isChanged);
+            if (seed.prefixLength < seed.right.length) {
+                Nonterminal nonterminal = Nonterminal.getInstanceByTag(seed.right[seed.prefixLength]);
+                if (nonterminal != null) {
+                    isChanged = closureItr(items, nonterminal, calEnd4((LR1Item) seed));
+                }else isChanged = false;
+            } else isChanged = false;
         }
         return new ItemGroup(items);
     }
 
     /**
      * 将【项seed】点后非终结符对应的新项加入到项集中
+     *
      * @param group 项集
-     * @param seed 项
-     * @param ends 向前看终结符号集合
+     * @param seed  项
+     * @param ends  向前看终结符号集合
      */
-    public void closureItr(Set<SLRItem> group, Nonterminal seed, Set<String> ends) {
+    public boolean closureItr(Set<SLRItem> group, Nonterminal seed, Set<String> ends) {
+        System.out.println("closureItr to group [" + seed + "] {" + ends + "}");
+        AtomicBoolean isChanged = new AtomicBoolean(false);
         Set<SLRItem> newItems = new HashSet<>();
         getRightSides(seed).rightSides.forEach(right -> {
             ends.forEach(end -> {
@@ -60,25 +69,34 @@ public class LR1Set extends LRSet implements LRSetInterface {
                 }
             });
         });
-        if (newItems.size() == 0) return;
-        group.addAll(newItems);
+        if (newItems.size() == 0) {
+            return false;
+        } else isChanged.set(true);
+        AtomicBoolean isOver = new AtomicBoolean(true);
+        boolean b1 = group.addAll(newItems);
+        if (!b1) return false;
         newItems.forEach(item -> {
             Nonterminal nonterminal = Nonterminal.getInstanceByTag(item.right[0]);
             if (nonterminal != null) {
-                closureItr(group, nonterminal, calEnd4((LR1Item) item));
+                boolean b = closureItr(group, nonterminal, calEnd4((LR1Item) item));
+                if (b) isOver.set(false);
             }
         });
+        if (isOver.get()) isChanged.set(false);
+        System.out.println("Finished closureItr to group [" + seed + "] {" + ends + "} -> " + isChanged.get());
+        return isChanged.get();
     }
 
     /**
      * 获取【项seed】对应的向前看终结符号
+     *
      * @param seed 项
      * @return 项对应的向前看终结符号集合
      */
     public Set<String> calEnd4(LR1Item seed) {
         Set<String> ends;
         if (seed.prefixLength < seed.right.length - 1) {
-            Nonterminal rear = Nonterminal.getInstanceByTag(seed.right[seed.prefixLength+1]);
+            Nonterminal rear = Nonterminal.getInstanceByTag(seed.right[seed.prefixLength + 1]);
             if (rear != null) {
                 ends = firstSet.get(rear);
             } else {
