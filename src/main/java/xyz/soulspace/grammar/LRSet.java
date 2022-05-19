@@ -48,9 +48,6 @@ public class LRSet {
      * @param id 项集id
      */
     public void genItemGroups(int id) {
-        if (id == 10)
-            System.out.println("test");
-
         if (integerSet.getOrDefault(id, 0) > 3) return;
         integerSet.put(id, integerSet.getOrDefault(id, 0) + 1);
         if (finishedGroups.contains(id)) return;

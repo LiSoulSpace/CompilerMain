@@ -18,13 +18,9 @@ public class Ex2Main {
     public static final String INPUT_FILE_NAME = "srcinput.txt";
     public static final String MAIN_DIR = System.getProperty("user.dir");
     public static final String RESOURCES_DIR = MAIN_DIR + "/src/main/resources";
-
     public static final String RESULT2_DIR = RESOURCES_DIR+"/result2";
-
     public static final String ITEM_GROUPS = "item_groups.txt";
-
     public static final String ACTION_TABLE = "action_table.txt";
-
     public static final String GOTO_TABLE = "goto_table.txt";
 
     public static void main(String[] args) throws IOException {

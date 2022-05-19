@@ -23,6 +23,10 @@ public class Lexer {
 
     List<Token> tokenList;
 
+    public Lexer() throws IOException {
+        this("");
+    }
+
     public Lexer(File f) throws IOException {
         this(f, null, null);
     }
@@ -41,6 +45,10 @@ public class Lexer {
             while (true) {
                 temp = bufferedReader.readLine();
                 if (temp == null) break;
+                if (temp.length() == 0) {
+                    sb.append(CHAR_END);
+                    continue;
+                }
                 sb.append(temp);
                 if (!temp.substring(temp.length() - 1).equals(";")) {
                     sb.append(CHAR_END);
@@ -56,6 +64,7 @@ public class Lexer {
     }
 
     public boolean parse() {
+        tokenList.clear();
         DFA dfa = new DFA();
         boolean result = true;
         while (cursor < srcLength) {
@@ -75,6 +84,15 @@ public class Lexer {
 
     public List<Token> getTokenList() {
         return tokenList;
+    }
+
+    public void setSrcBuffer(String srcBuffer) {
+        this.srcBuffer = srcBuffer;
+        srcLength = srcBuffer.length();
+    }
+
+    public String getSrcBuffer() {
+        return srcBuffer;
     }
 
     public class DFA {
@@ -145,9 +163,7 @@ public class Lexer {
                         }
                         break;
                     case word:
-                        System.out.println(head);
                         if (Character.isWhitespace(head)) {
-                            System.out.println(sb.toString());
                             Token token = Keyword.isKeyword(sb.toString());
                             if (!Objects.equals(token.getTag(), Tag.ERROR)) {
                                 return token;

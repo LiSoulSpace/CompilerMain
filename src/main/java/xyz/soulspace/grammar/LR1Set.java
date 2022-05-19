@@ -38,7 +38,6 @@ public class LR1Set extends LRSet implements LRSetInterface {
         items.add(seed);
         boolean isChanged = true;
         while (isChanged) {
-//            System.out.println(isChanged);
             if (seed.prefixLength < seed.right.length) {
                 Nonterminal nonterminal = Nonterminal.getInstanceByTag(seed.right[seed.prefixLength]);
                 if (nonterminal != null) {
@@ -57,13 +56,11 @@ public class LR1Set extends LRSet implements LRSetInterface {
      * @param ends  向前看终结符号集合
      */
     public boolean closureItr(Set<SLRItem> group, Nonterminal seed, Set<String> ends) {
-        System.out.println("closureItr to group [" + seed + "] {" + ends + "}");
         AtomicBoolean isChanged = new AtomicBoolean(false);
         Set<SLRItem> newItems = new HashSet<>();
         getRightSides(seed).rightSides.forEach(right -> {
             ends.forEach(end -> {
                 LR1Item item = getItemInstance(seed, right, 0, end);
-                System.out.println(item);
                 if (!group.contains(item)) {
                     newItems.add(item);
                 }
@@ -83,7 +80,6 @@ public class LR1Set extends LRSet implements LRSetInterface {
             }
         });
         if (isOver.get()) isChanged.set(false);
-        System.out.println("Finished closureItr to group [" + seed + "] {" + ends + "} -> " + isChanged.get());
         return isChanged.get();
     }
 
