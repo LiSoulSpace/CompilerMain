@@ -15,7 +15,15 @@ public class Token {
 
     public Token(String id, String tag) {
         this(tag);
-        SymbolTable.setItem(id, " ", tag);
+        switch (tag) {
+            case "digits" -> {
+                SymbolTable.setItem(id, "type", "digits");
+            }
+//            default -> {
+//                SymbolTable.setItem(id, " ", tag);
+//            }
+        }
+
     }
 
     public String getTag() {
@@ -33,9 +41,9 @@ public class Token {
                 '}';
     }
 
-    public String toTerminal(){
-        if(tag.equals("keyword"))return getValue();
-        else if (tag.equals("op"))return getValue();
+    public String toTerminal() {
+        if (tag.equals("keyword")) return getValue();
+        else if (tag.equals("op")) return getValue();
         else return tag;
     }
 }

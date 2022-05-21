@@ -14,8 +14,8 @@ import java.util.Map;
  */
 public class Rule {
     private static int labelNum = 1;
-
     private static int tNum = 1;
+    private static int lineNumber = 0;
 
     public static class Node {
         public String tag;
@@ -31,14 +31,6 @@ public class Rule {
             this(item.left.getTag());
             String code = "", place = "", type = "", next = "";
             switch (item.left.getTag()) {
-//                case "fir" -> {
-//                    if (equalStrings(item.right, new String[]{"P"})) {
-//                        code = children.get(0).getValue("code") +
-//                                children.get(1).getValue("code") +
-//                                children.get(1).getValue("next");
-//                    }
-//                    setProperty("code", code);
-//                }
                 case "P" -> {
                     if (equalStrings(item.right, new String[]{"D", "K"})) {
                         code = children.get(0).getValue("code") +
@@ -62,7 +54,7 @@ public class Rule {
                     if (equalStrings(item.right, new String[]{Type.INT})) {
                         type = "int";
                     } else if (equalStrings(item.right, new String[]{Type.FLOAT})) {
-                        type = "float" ;
+                        type = "float";
                     }
                     setProperty("code", type);
                 }
@@ -71,24 +63,24 @@ public class Rule {
                         code = children.get(2).getValue("code") + children.get(0).getValue("name")
                                 + "=" + children.get(2).getValue("place") + '\n';
                     } else if (equalStrings(item.right, new String[]{Keyword.IF, Operator.LPAR, "C", Operator.RPAR, "S"})) {
-                        children.get(2).setProperty("true", genLabel());
+                        //children.get(2).setProperty("true", genLabel());
                         code = children.get(2).getValue("code") +
                                 children.get(2).getValue("true") +
-                                children.get(4).getValue("code");
+                                children.get(4).getValue("code") + "L" + String.valueOf(labelNum - 1) + ":";
                     } else if (equalStrings(item.right, new String[]{Keyword.IF, Operator.LPAR, "C", Operator.RPAR, "S",
                             Keyword.ELSE, "S"})) {
                         next = genLabel();
                         code = children.get(2).getValue("code")
                                 + children.get(2).getValue("true")
                                 + children.get(4).getValue("code")
-                                + "goto" + next + children.get(2).getValue("false")
+                                + "goto " + next + '\n' + children.get(2).getValue("false")
                                 + children.get(6).getValue("code");
                     } else if (equalStrings(item.right, new String[]{Keyword.WHILE, Operator.LPAR, "C", Operator.RPAR, "S"})) {
                         String root = genLabel();
                         children.get(4).setProperty("next", root);
                         code = root + children.get(2).getValue("code") + children.get(2).getValue("true") +
-                                children.get(4).getValue("code") + "goto" + root +
-                                children.get(2).getValue("false");
+                                children.get(4).getValue("code") + "goto " + root + '\n'
+                                + children.get(2).getValue("false");
                     } else if (equalStrings(item.right, new String[]{Operator.LBPAR, "K", Operator.RBPAR})) {
                         code = children.get(1).getValue("code");
                     }
@@ -117,14 +109,15 @@ public class Rule {
                     } else if (equalStrings(item.right, new String[]{"E", Operator.EQU, "E"})) {
                         code += Operator.EQU;
                     }
-                    code += children.get(2).getValue("place") + ") goto" + getValue("true") + "goto "
-                            + getValue("false");
+                    code += children.get(2).getValue("place") + ") goto " + getValue("true") + "\ngoto "
+                            + getValue("false") + '\n';
                     setProperty("code", code);
                 }
                 case "E" -> {
                     if (equalStrings(item.right, new String[]{"T"})) {
                         place = children.get(0).getValue("place");
                         code = children.get(0).getValue("code");
+                        type = children.get(0).getValue("type");
                     } else {
                         place = genTemp();
                         code = children.get(0).getValue("code")
@@ -136,7 +129,10 @@ public class Rule {
                             code += "-";
                         }
                         code += children.get(2).getValue("place") + '\n';
+                        type = getLonger(children.get(0).getValue("type"), children.get(2).getValue("type"));
+                        SymbolTable.setItem(place, "type", type);
                     }
+                    setProperty("type", type);
                     setProperty("place", place);
                     setProperty("code", code);
                 }
@@ -144,6 +140,7 @@ public class Rule {
                     if (equalStrings(item.right, new String[]{"F"})) {
                         place = children.get(0).getValue("place");
                         code = children.get(0).getValue("code");
+                        type = children.get(0).getValue("type");
                     } else {
                         place = genTemp();
                         code = children.get(0).getValue("code")
@@ -155,7 +152,10 @@ public class Rule {
                             code += "/";
                         }
                         code += children.get(2).getValue("place") + '\n';
+                        type = getLonger(children.get(0).getValue("type"), children.get(2).getValue("type"));
+                        SymbolTable.setItem(place, "type", type);
                     }
+                    setProperty("type", type);
                     setProperty("place", place);
                     setProperty("code", code);
                 }
@@ -163,15 +163,20 @@ public class Rule {
                     if (equalStrings(item.right, new String[]{Operator.LPAR, "E", Operator.RPAR})) {
                         place = children.get(1).getValue("place");
                         code = children.get(1).getValue("code");
+                        type = children.get(1).getValue("type");
                     } else if (equalStrings(item.right, new String[]{Tag.ID})) {
                         place = children.get(0).getValue("name");
+                        type = SymbolTable.getProperty(place, "type");
                         code = "";
                     } else if (equalStrings(item.right, new String[]{Tag.NUM})) {
                         place = children.get(0).getValue("value");
+                        if (place.contains(".")) type = "float";
+                        else type = "int";
                         code = "";
                     }
                     setProperty("place", place);
                     setProperty("code", code);
+                    setProperty("type", type);
                 }
                 default -> {
 
@@ -227,26 +232,24 @@ public class Rule {
     }
 
     private static String genLabel() {
-        return "L" + (labelNum++) + ":\n";
+        return "L" + (labelNum++) + ":";
     }
 
     private static String genTemp() {
+        SymbolTable.setItem("t" + String.valueOf(tNum), "type", "int");
         return "t" + (tNum++);
+    }
+
+    private static String getLonger(String a, String b) {
+        if (a.equals("float") || b.equals("float")) return "float";
+        else return "int";
     }
 
     public static int getLabelNum() {
         return labelNum;
     }
 
-    public static void setLabelNum(int labelNum) {
-        Rule.labelNum = labelNum;
-    }
-
     public static int gettNum() {
         return tNum;
-    }
-
-    public static void settNum(int tNum) {
-        Rule.tNum = tNum;
     }
 }

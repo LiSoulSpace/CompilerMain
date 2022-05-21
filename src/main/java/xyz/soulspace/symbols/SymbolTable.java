@@ -9,6 +9,8 @@ public class SymbolTable {
     public static class Properties extends HashMap<String, String> {
     }
 
+    public static int size = 0;
+
     static Map<String, Properties> symbolTable = new HashMap<String, Properties>();
 
     public static void setItem(String id, String property, String value) {
@@ -16,6 +18,17 @@ public class SymbolTable {
             symbolTable.put(id, new Properties());
         }
         symbolTable.get(id).put(property, value);
+        if (property.equals("type")) {
+            if (value.equals("int")) {
+                symbolTable.get(id).put("width", String.valueOf(4));
+                symbolTable.get(id).put("address", String.valueOf(size));
+                size+=4;
+            }else if (value.equals("float")){
+                symbolTable.get(id).put("width", String.valueOf(4));
+                symbolTable.get(id).put("address", String.valueOf(size));
+                size+=4;
+            }
+        }
     }
 
     public static Set<String> getIds() {
@@ -33,7 +46,7 @@ public class SymbolTable {
     public static String printSymbolTableToString() {
         StringBuilder sb = new StringBuilder();
         for (String id : getIds()) {
-            sb.append(id);
+            sb.append(id).append(" ");
             for (String property : getProperties(id).keySet()) {
                 sb.append(property).append(":").append(getProperty(id, property)).append(" ");
             }

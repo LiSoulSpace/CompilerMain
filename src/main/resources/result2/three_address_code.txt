@@ -1,31 +1,33 @@
 
 int a
+int b
+int c
 float d
 a=2
+b='c'
 d=2.2
-if(a>b) gotoL1:
+if(a>b) goto L1:
 goto L2:
-L1:
-t1=a+b
+L1:t1=a+b
 c=t1
 t2=c+c
 c=t2
-gotoL3:
-L2:
-t3=a-b
+goto L3:
+L2:t3=a-d
 c=t3
-L3:
-L6:
-if(c<5) gotoL4:
+L3:L6:if(c<5) goto L4:
 goto L5:
-L4:
-t4=c-1
+L4:t4=c-1
 c=t4
-gotoL6:
-L5:
-if(a>b) gotoL7:
+goto L6:
+L5:if(a>b) goto L7:
 goto L8:
-L9:
-t5=a+1
+L7:t5=a+1
 a=t5
+L8:if(a<b) goto L9:
+goto L10:
+L9:t6=b-1
+b=t6
+L10:t7=c-1
+c=t7
 
