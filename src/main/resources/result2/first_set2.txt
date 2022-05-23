@@ -1,0 +1,12 @@
+
+S:[id, {, while, if]
+C:[(, digits, id]
+D:[ε, float, int]
+T:[(, digits, id]
+E:[(, digits, id]
+F:[(, digits, id]
+K:[id, {, while, if]
+L:[float, int]
+P:[ε, id, {, float, while, if, int]
+fir:[ε, id, {, float, while, if, int]
+
