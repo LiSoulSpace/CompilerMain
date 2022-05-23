@@ -42,7 +42,7 @@ public class SymbolTable {
     }
 
     public static Properties getProperties(String id) {
-        return symbolTable.get(id);
+        return symbolTable.getOrDefault(id, null);
     }
 
     public static String getProperty(String id, String property) {

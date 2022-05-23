@@ -35,4 +35,13 @@ public class SLRItem {
         }
         return sb.toString();
     }
+
+    public String rightToString() {
+        StringBuffer sb = new StringBuffer();
+        for (String s : right) {
+            sb.append(s);
+        }
+        return sb.toString();
+
+    }
 }

@@ -1,4 +1,4 @@
-P -> D K
+P -> D M K
 D -> L id ; D
 D -> ε
 L -> int

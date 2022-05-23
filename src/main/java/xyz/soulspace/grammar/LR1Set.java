@@ -42,7 +42,7 @@ public class LR1Set extends LRSet implements LRSetInterface {
                 Nonterminal nonterminal = Nonterminal.getInstanceByTag(seed.right[seed.prefixLength]);
                 if (nonterminal != null) {
                     isChanged = closureItr(items, nonterminal, calEnd4((LR1Item) seed));
-                }else isChanged = false;
+                } else isChanged = false;
             } else isChanged = false;
         }
         return new ItemGroup(items);
@@ -60,9 +60,11 @@ public class LR1Set extends LRSet implements LRSetInterface {
         Set<SLRItem> newItems = new HashSet<>();
         getRightSides(seed).rightSides.forEach(right -> {
             ends.forEach(end -> {
-                LR1Item item = getItemInstance(seed, right, 0, end);
-                if (!group.contains(item)) {
-                    newItems.add(item);
+                if (!end.equals(GrammarTable.EMPTY)) {
+                    LR1Item item = getItemInstance(seed, right, 0, end);
+                    if (!group.contains(item)) {
+                        newItems.add(item);
+                    }
                 }
             });
         });
@@ -94,10 +96,21 @@ public class LR1Set extends LRSet implements LRSetInterface {
         if (seed.prefixLength < seed.right.length - 1) {
             Nonterminal rear = Nonterminal.getInstanceByTag(seed.right[seed.prefixLength + 1]);
             if (rear != null) {
-                ends = firstSet.get(rear);
+                if (rear.getTag().equals("M") || rear.getTag().equals("N")) {
+                    Nonterminal rear2 = Nonterminal.getInstanceByTag(seed.right[seed.prefixLength + 2]);
+                    if (rear2 != null)
+                        ends = firstSet.get(Nonterminal.getInstanceByTag(seed.right[seed.prefixLength + 2]));
+                    else {
+                        ends = new HashSet<>();
+                        ends.add(seed.right[seed.prefixLength + 2]);
+                    }
+                } else {
+                    ends = firstSet.get(rear);
+                }
             } else {
                 ends = new HashSet<>();
                 ends.add(seed.right[seed.prefixLength + 1]);
+
             }
         } else {
             ends = new HashSet<>();

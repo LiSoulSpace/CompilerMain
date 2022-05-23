@@ -1,6 +1,6 @@
 
-0 { r(D->ε.  [{])
 0 id r(D->ε.  [id])
+0 { r(D->ε.  [{])
 0 while r(D->ε.  [while])
 0 float s6
 0 if r(D->ε.  [if])
@@ -8,513 +8,772 @@
 
 1 $ acc
 
-2 id s9
-2 { s12
-2 while s11
-2 if s10
+2 id r(M->ε.  [id])
+2 { r(M->ε.  [{])
+2 while r(M->ε.  [while])
+2 if r(M->ε.  [if])
 
-3 id s117
+3 id s166
 
 5 id r(L->int.  [id])
 
 6 id r(L->float.  [id])
 
-7 $ r(K->S.  [$])
-7 ε r(K->S.  [ε])
+7 id s11
+7 { s14
+7 while s13
+7 if s12
 
-8 $ r(P->DK.  [$])
-8 id r(M->ε.  [id])
-8 { r(M->ε.  [{])
-8 while r(M->ε.  [while])
-8 if r(M->ε.  [if])
+9 $ r(K->S.  [$])
+9 id r(K->S.  [id])
+9 { r(K->S.  [{])
+9 while r(K->S.  [while])
+9 if r(K->S.  [if])
 
-9 = s16
+10 $ r(P->DMK.  [$])
+10 id r(M->ε.  [id])
+10 { r(M->ε.  [{])
+10 while r(M->ε.  [while])
+10 if r(M->ε.  [if])
 
-10 ( s49
+11 = s17
 
-11 ( r(M->ε.  [(])
+12 ( s50
 
-12 id s74
-12 { s77
-12 while s76
-12 if s75
+13 ( r(M->ε.  [(])
 
-13 id s9
-13 { s12
-13 while s11
-13 if s10
+14 id s79
+14 { s82
+14 while s81
+14 if s80
 
-15 $ r(K->KMS.  [$])
-15 ε r(K->KMS.  [ε])
+15 id s11
+15 { s14
+15 while s13
+15 if s12
 
-16 ( s21
-16 digits s22
-16 id s20
+16 $ r(K->KMS.  [$])
+16 { r(K->KMS.  [{])
+16 id r(K->KMS.  [id])
+16 while r(K->KMS.  [while])
+16 if r(K->KMS.  [if])
 
-17 ; s23
-17 + s24
-17 - s25
+17 ( s22
+17 digits s23
+17 id s21
 
-18 * s27
-18 + r(E->T.  [+])
-18 ; r(E->T.  [;])
-18 - r(E->T.  [-])
-18 / s28
+18 ; s24
+18 + s25
+18 - s26
 
-19 * r(T->F.  [*])
-19 ; r(T->F.  [;])
-19 + r(T->F.  [+])
-19 - r(T->F.  [-])
-19 / r(T->F.  [/])
+19 * s28
+19 ; r(E->T.  [;])
+19 + r(E->T.  [+])
+19 - r(E->T.  [-])
+19 / s29
 
-20 * r(F->id.  [*])
-20 + r(F->id.  [+])
-20 ; r(F->id.  [;])
-20 - r(F->id.  [-])
-20 / r(F->id.  [/])
+20 * r(T->F.  [*])
+20 + r(T->F.  [+])
+20 ; r(T->F.  [;])
+20 - r(T->F.  [-])
+20 / r(T->F.  [/])
 
-21 ( s34
-21 digits s35
-21 id s33
+21 * r(F->id.  [*])
+21 ; r(F->id.  [;])
+21 + r(F->id.  [+])
+21 - r(F->id.  [-])
+21 / r(F->id.  [/])
 
-22 * r(F->digits.  [*])
-22 + r(F->digits.  [+])
-22 ; r(F->digits.  [;])
-22 - r(F->digits.  [-])
-22 / r(F->digits.  [/])
+22 ( s35
+22 digits s36
+22 id s34
 
-23 $ r(S->id=E;.  [$])
-23 ε r(S->id=E;.  [ε])
+23 * r(F->digits.  [*])
+23 + r(F->digits.  [+])
+23 ; r(F->digits.  [;])
+23 - r(F->digits.  [-])
+23 / r(F->digits.  [/])
 
-24 ( s21
-24 digits s22
-24 id s20
+24 $ r(S->id=E;.  [$])
+24 { r(S->id=E;.  [{])
+24 id r(S->id=E;.  [id])
+24 while r(S->id=E;.  [while])
+24 if r(S->id=E;.  [if])
 
-25 ( s21
-25 digits s22
-25 id s20
+25 ( s22
+25 digits s23
+25 id s21
 
-26 * s27
-26 ; r(E->E+T.  [;])
-26 + r(E->E+T.  [+])
-26 - r(E->E+T.  [-])
-26 / s28
+26 ( s22
+26 digits s23
+26 id s21
 
-27 ( s21
-27 digits s22
-27 id s20
+27 * s28
+27 + r(E->E+T.  [+])
+27 ; r(E->E+T.  [;])
+27 - r(E->E+T.  [-])
+27 / s29
 
-28 ( s21
-28 digits s22
-28 id s20
+28 ( s22
+28 digits s23
+28 id s21
 
-29 * r(T->T*F.  [*])
-29 + r(T->T*F.  [+])
-29 ; r(T->T*F.  [;])
-29 - r(T->T*F.  [-])
-29 / r(T->T*F.  [/])
+29 ( s22
+29 digits s23
+29 id s21
 
-30 ) s36
-30 + s37
-30 - s38
+30 * r(T->T*F.  [*])
+30 ; r(T->T*F.  [;])
+30 + r(T->T*F.  [+])
+30 - r(T->T*F.  [-])
+30 / r(T->T*F.  [/])
 
-31 ) r(E->T.  [)])
-31 * s40
-31 + r(E->T.  [+])
-31 - r(E->T.  [-])
-31 / s41
+31 ) s37
+31 + s38
+31 - s39
 
-32 ) r(T->F.  [)])
-32 * r(T->F.  [*])
-32 + r(T->F.  [+])
-32 - r(T->F.  [-])
-32 / r(T->F.  [/])
+32 ) r(E->T.  [)])
+32 * s41
+32 + r(E->T.  [+])
+32 - r(E->T.  [-])
+32 / s42
 
-33 ) r(F->id.  [)])
-33 * r(F->id.  [*])
-33 + r(F->id.  [+])
-33 - r(F->id.  [-])
-33 / r(F->id.  [/])
+33 ) r(T->F.  [)])
+33 * r(T->F.  [*])
+33 + r(T->F.  [+])
+33 - r(T->F.  [-])
+33 / r(T->F.  [/])
 
-34 ( s34
-34 digits s35
-34 id s33
+34 ) r(F->id.  [)])
+34 * r(F->id.  [*])
+34 + r(F->id.  [+])
+34 - r(F->id.  [-])
+34 / r(F->id.  [/])
 
-35 ) r(F->digits.  [)])
-35 * r(F->digits.  [*])
-35 + r(F->digits.  [+])
-35 - r(F->digits.  [-])
-35 / r(F->digits.  [/])
+35 ( s35
+35 digits s36
+35 id s34
 
-36 * r(F->(E).  [*])
-36 + r(F->(E).  [+])
-36 ; r(F->(E).  [;])
-36 - r(F->(E).  [-])
-36 / r(F->(E).  [/])
+36 ) r(F->digits.  [)])
+36 * r(F->digits.  [*])
+36 + r(F->digits.  [+])
+36 - r(F->digits.  [-])
+36 / r(F->digits.  [/])
 
-37 ( s34
-37 digits s35
-37 id s33
+37 * r(F->(E).  [*])
+37 + r(F->(E).  [+])
+37 ; r(F->(E).  [;])
+37 - r(F->(E).  [-])
+37 / r(F->(E).  [/])
 
-38 ( s34
-38 digits s35
-38 id s33
+38 ( s35
+38 digits s36
+38 id s34
 
-39 ) r(E->E+T.  [)])
-39 * s40
-39 + r(E->E+T.  [+])
-39 - r(E->E+T.  [-])
-39 / s41
+39 ( s35
+39 digits s36
+39 id s34
 
-40 ( s34
-40 digits s35
-40 id s33
+40 ) r(E->E+T.  [)])
+40 * s41
+40 + r(E->E+T.  [+])
+40 - r(E->E+T.  [-])
+40 / s42
 
-41 ( s34
-41 digits s35
-41 id s33
+41 ( s35
+41 digits s36
+41 id s34
 
-42 ) r(T->T*F.  [)])
-42 * r(T->T*F.  [*])
-42 + r(T->T*F.  [+])
-42 - r(T->T*F.  [-])
-42 / r(T->T*F.  [/])
+42 ( s35
+42 digits s36
+42 id s34
 
-43 ) s44
-43 + s37
-43 - s38
+43 ) r(T->T*F.  [)])
+43 * r(T->T*F.  [*])
+43 + r(T->T*F.  [+])
+43 - r(T->T*F.  [-])
+43 / r(T->T*F.  [/])
 
-44 ) r(F->(E).  [)])
-44 * r(F->(E).  [*])
-44 + r(F->(E).  [+])
-44 - r(F->(E).  [-])
-44 / r(F->(E).  [/])
+44 ) s45
+44 + s38
+44 - s39
 
-45 ) r(E->E-T.  [)])
-45 * s40
-45 + r(E->E-T.  [+])
-45 - r(E->E-T.  [-])
-45 / s41
+45 ) r(F->(E).  [)])
+45 * r(F->(E).  [*])
+45 + r(F->(E).  [+])
+45 - r(F->(E).  [-])
+45 / r(F->(E).  [/])
 
-46 ) r(T->T/F.  [)])
-46 * r(T->T/F.  [*])
-46 + r(T->T/F.  [+])
-46 - r(T->T/F.  [-])
-46 / r(T->T/F.  [/])
+46 ) r(E->E-T.  [)])
+46 * s41
+46 + r(E->E-T.  [+])
+46 - r(E->E-T.  [-])
+46 / s42
 
+47 ) r(T->T/F.  [)])
 47 * r(T->T/F.  [*])
-47 ; r(T->T/F.  [;])
 47 + r(T->T/F.  [+])
 47 - r(T->T/F.  [-])
 47 / r(T->T/F.  [/])
 
-48 * s27
-48 ; r(E->E-T.  [;])
-48 + r(E->E-T.  [+])
-48 - r(E->E-T.  [-])
-48 / s28
+48 * r(T->T/F.  [*])
+48 + r(T->T/F.  [+])
+48 ; r(T->T/F.  [;])
+48 - r(T->T/F.  [-])
+48 / r(T->T/F.  [/])
 
-49 ( s55
-49 digits s56
-49 id s54
+49 * s28
+49 + r(E->E-T.  [+])
+49 ; r(E->E-T.  [;])
+49 - r(E->E-T.  [-])
+49 / s29
 
-50 ) s57
+50 ( s56
+50 digits s57
+50 id s55
 
-51 == s103
-51 + s104
-51 < s102
-51 - s105
-51 > s101
+51 ) s58
 
-52 == r(E->T.  [==])
-52 * s110
-52 + r(E->T.  [+])
-52 < r(E->T.  [<])
-52 - r(E->T.  [-])
-52 > r(E->T.  [>])
-52 / s111
+52 == s112
+52 + s113
+52 < s111
+52 - s114
+52 > s110
 
-53 == r(T->F.  [==])
-53 * r(T->F.  [*])
-53 + r(T->F.  [+])
-53 < r(T->F.  [<])
-53 - r(T->F.  [-])
-53 > r(T->F.  [>])
-53 / r(T->F.  [/])
+53 == r(E->T.  [==])
+53 * s119
+53 + r(E->T.  [+])
+53 < r(E->T.  [<])
+53 - r(E->T.  [-])
+53 > r(E->T.  [>])
+53 / s120
 
-54 == r(F->id.  [==])
-54 * r(F->id.  [*])
-54 + r(F->id.  [+])
-54 < r(F->id.  [<])
-54 - r(F->id.  [-])
-54 > r(F->id.  [>])
-54 / r(F->id.  [/])
+54 == r(T->F.  [==])
+54 * r(T->F.  [*])
+54 + r(T->F.  [+])
+54 < r(T->F.  [<])
+54 - r(T->F.  [-])
+54 > r(T->F.  [>])
+54 / r(T->F.  [/])
 
-55 ( s34
-55 digits s35
-55 id s33
+55 == r(F->id.  [==])
+55 * r(F->id.  [*])
+55 + r(F->id.  [+])
+55 < r(F->id.  [<])
+55 - r(F->id.  [-])
+55 > r(F->id.  [>])
+55 / r(F->id.  [/])
 
-56 == r(F->digits.  [==])
-56 * r(F->digits.  [*])
-56 + r(F->digits.  [+])
-56 < r(F->digits.  [<])
-56 - r(F->digits.  [-])
-56 > r(F->digits.  [>])
-56 / r(F->digits.  [/])
+56 ( s35
+56 digits s36
+56 id s34
 
-57 id r(M->ε.  [id])
-57 { r(M->ε.  [{])
-57 while r(M->ε.  [while])
-57 if r(M->ε.  [if])
+57 == r(F->digits.  [==])
+57 * r(F->digits.  [*])
+57 + r(F->digits.  [+])
+57 < r(F->digits.  [<])
+57 - r(F->digits.  [-])
+57 > r(F->digits.  [>])
+57 / r(F->digits.  [/])
 
-58 id s9
-58 { s12
-58 while s11
-58 if s10
+58 id r(M->ε.  [id])
+58 { r(M->ε.  [{])
+58 while r(M->ε.  [while])
+58 if r(M->ε.  [if])
 
-59 $ r(S->if(C)MS.  [$])
-59 ε r(S->if(C)MS.  [ε])
-59 else r(N->ε.  [else])
+59 id s61
+59 { s64
+59 while s63
+59 if s62
 
-60 else s62
+60 $ r(S->if(C)MS.  [$])
+60 else r(N->ε.  [else])
+60 { r(S->if(C)MS.  [{])
+60 id r(S->if(C)MS.  [id])
+60 while r(S->if(C)MS.  [while])
+60 if r(S->if(C)MS.  [if])
 
-62 id r(M->ε.  [id])
-62 { r(M->ε.  [{])
-62 while r(M->ε.  [while])
-62 if r(M->ε.  [if])
+61 = s146
 
-63 id s9
-63 { s12
-63 while s11
-63 if s10
+62 ( s149
 
-64 $ r(S->if(C)MSNelseMS.  [$])
-64 ε r(S->if(C)MSNelseMS.  [ε])
+63 ( r(M->ε.  [(])
 
-65 ( s67
+64 id s79
+64 { s82
+64 while s81
+64 if s80
 
-67 ( s55
-67 digits s56
-67 id s54
+65 else s67
 
-68 ) s69
+67 id r(M->ε.  [id])
+67 { r(M->ε.  [{])
+67 while r(M->ε.  [while])
+67 if r(M->ε.  [if])
 
-69 id r(M->ε.  [id])
-69 { r(M->ε.  [{])
-69 while r(M->ε.  [while])
-69 if r(M->ε.  [if])
+68 id s11
+68 { s14
+68 while s13
+68 if s12
 
-70 id s9
-70 { s12
-70 while s11
-70 if s10
+69 $ r(S->if(C)MSNelseMS.  [$])
+69 id r(S->if(C)MSNelseMS.  [id])
+69 { r(S->if(C)MSNelseMS.  [{])
+69 while r(S->if(C)MSNelseMS.  [while])
+69 if r(S->if(C)MSNelseMS.  [if])
 
-71 $ r(S->whileM(C)MS.  [$])
-71 ε r(S->whileM(C)MS.  [ε])
+70 ( s72
 
-72 ε r(K->S.  [ε])
-72 } r(K->S.  [}])
+72 ( s56
+72 digits s57
+72 id s55
 
-73 id r(M->ε.  [id])
-73 { r(M->ε.  [{])
-73 while r(M->ε.  [while])
-73 if r(M->ε.  [if])
-73 } s79
+73 ) s74
 
-74 = s81
+74 id r(M->ε.  [id])
+74 { r(M->ε.  [{])
+74 while r(M->ε.  [while])
+74 if r(M->ε.  [if])
 
-75 ( s84
+75 id s11
+75 { s14
+75 while s13
+75 if s12
 
-76 ( r(M->ε.  [(])
+76 $ r(S->whileM(C)MS.  [$])
+76 { r(S->whileM(C)MS.  [{])
+76 id r(S->whileM(C)MS.  [id])
+76 while r(S->whileM(C)MS.  [while])
+76 if r(S->whileM(C)MS.  [if])
 
-77 id s74
-77 { s77
-77 while s76
-77 if s75
+77 id r(K->S.  [id])
+77 { r(K->S.  [{])
+77 while r(K->S.  [while])
+77 if r(K->S.  [if])
+77 } r(K->S.  [}])
 
-78 id s74
-78 { s77
-78 while s76
-78 if s75
+78 id r(M->ε.  [id])
+78 { r(M->ε.  [{])
+78 while r(M->ε.  [while])
+78 if r(M->ε.  [if])
+78 } s84
 
-79 $ r(S->{K}.  [$])
-79 ε r(S->{K}.  [ε])
+79 = s86
 
-80 ε r(K->KMS.  [ε])
-80 } r(K->KMS.  [}])
+80 ( s89
 
-81 ( s21
-81 digits s22
-81 id s20
+81 ( r(M->ε.  [(])
 
-82 ; s83
-82 + s24
-82 - s25
+82 id s79
+82 { s82
+82 while s81
+82 if s80
 
-83 ε r(S->id=E;.  [ε])
-83 } r(S->id=E;.  [}])
+83 id s79
+83 { s82
+83 while s81
+83 if s80
 
-84 ( s55
-84 digits s56
-84 id s54
+84 $ r(S->{K}.  [$])
+84 { r(S->{K}.  [{])
+84 id r(S->{K}.  [id])
+84 while r(S->{K}.  [while])
+84 if r(S->{K}.  [if])
 
-85 ) s86
+85 { r(K->KMS.  [{])
+85 id r(K->KMS.  [id])
+85 while r(K->KMS.  [while])
+85 if r(K->KMS.  [if])
+85 } r(K->KMS.  [}])
 
-86 id r(M->ε.  [id])
-86 { r(M->ε.  [{])
-86 while r(M->ε.  [while])
-86 if r(M->ε.  [if])
+86 ( s22
+86 digits s23
+86 id s21
 
-87 id s74
-87 { s77
-87 while s76
-87 if s75
+87 ; s88
+87 + s25
+87 - s26
 
-88 ε r(S->if(C)MS.  [ε])
-88 else r(N->ε.  [else])
-88 } r(S->if(C)MS.  [}])
+88 { r(S->id=E;.  [{])
+88 id r(S->id=E;.  [id])
+88 while r(S->id=E;.  [while])
+88 } r(S->id=E;.  [}])
+88 if r(S->id=E;.  [if])
 
-89 else s90
+89 ( s56
+89 digits s57
+89 id s55
 
-90 id r(M->ε.  [id])
-90 { r(M->ε.  [{])
-90 while r(M->ε.  [while])
-90 if r(M->ε.  [if])
+90 ) s91
 
-91 id s74
-91 { s77
-91 while s76
-91 if s75
+91 id r(M->ε.  [id])
+91 { r(M->ε.  [{])
+91 while r(M->ε.  [while])
+91 if r(M->ε.  [if])
 
-92 ε r(S->if(C)MSNelseMS.  [ε])
-92 } r(S->if(C)MSNelseMS.  [}])
+92 id s94
+92 { s97
+92 while s96
+92 if s95
 
-93 ( s94
+93 else r(N->ε.  [else])
+93 { r(S->if(C)MS.  [{])
+93 id r(S->if(C)MS.  [id])
+93 while r(S->if(C)MS.  [while])
+93 if r(S->if(C)MS.  [if])
+93 } r(S->if(C)MS.  [}])
 
-94 ( s55
-94 digits s56
-94 id s54
+94 = s126
 
-95 ) s96
+95 ( s129
 
-96 id r(M->ε.  [id])
-96 { r(M->ε.  [{])
-96 while r(M->ε.  [while])
-96 if r(M->ε.  [if])
+96 ( r(M->ε.  [(])
 
-97 id s74
-97 { s77
-97 while s76
-97 if s75
+97 id s79
+97 { s82
+97 while s81
+97 if s80
 
-98 ε r(S->whileM(C)MS.  [ε])
-98 } r(S->whileM(C)MS.  [}])
+98 else s99
 
 99 id r(M->ε.  [id])
 99 { r(M->ε.  [{])
 99 while r(M->ε.  [while])
 99 if r(M->ε.  [if])
-99 } s100
 
-100 ε r(S->{K}.  [ε])
-100 } r(S->{K}.  [}])
+100 id s79
+100 { s82
+100 while s81
+100 if s80
 
-101 ( s34
-101 digits s35
-101 id s33
+101 id r(S->if(C)MSNelseMS.  [id])
+101 { r(S->if(C)MSNelseMS.  [{])
+101 while r(S->if(C)MSNelseMS.  [while])
+101 if r(S->if(C)MSNelseMS.  [if])
+101 } r(S->if(C)MSNelseMS.  [}])
 
-102 ( s34
-102 digits s35
-102 id s33
+102 ( s103
 
-103 ( s34
-103 digits s35
-103 id s33
+103 ( s56
+103 digits s57
+103 id s55
 
-104 ( s55
-104 digits s56
-104 id s54
+104 ) s105
 
-105 ( s55
-105 digits s56
-105 id s54
+105 id r(M->ε.  [id])
+105 { r(M->ε.  [{])
+105 while r(M->ε.  [while])
+105 if r(M->ε.  [if])
 
-106 ) r(C->E>E.  [)])
-106 + s37
-106 - s38
+106 id s79
+106 { s82
+106 while s81
+106 if s80
 
-107 ) r(C->E<E.  [)])
-107 + s37
-107 - s38
+107 { r(S->whileM(C)MS.  [{])
+107 id r(S->whileM(C)MS.  [id])
+107 while r(S->whileM(C)MS.  [while])
+107 } r(S->whileM(C)MS.  [}])
+107 if r(S->whileM(C)MS.  [if])
 
-108 ) r(C->E==E.  [)])
-108 + s37
-108 - s38
+108 id r(M->ε.  [id])
+108 { r(M->ε.  [{])
+108 while r(M->ε.  [while])
+108 if r(M->ε.  [if])
+108 } s109
 
-109 == r(E->E+T.  [==])
-109 * s110
-109 + r(E->E+T.  [+])
-109 < r(E->E+T.  [<])
-109 - r(E->E+T.  [-])
-109 > r(E->E+T.  [>])
-109 / s111
+109 { r(S->{K}.  [{])
+109 id r(S->{K}.  [id])
+109 while r(S->{K}.  [while])
+109 if r(S->{K}.  [if])
+109 } r(S->{K}.  [}])
 
-110 ( s55
-110 digits s56
-110 id s54
+110 ( s35
+110 digits s36
+110 id s34
 
-111 ( s55
-111 digits s56
-111 id s54
+111 ( s35
+111 digits s36
+111 id s34
 
-112 == r(T->T*F.  [==])
-112 * r(T->T*F.  [*])
-112 + r(T->T*F.  [+])
-112 < r(T->T*F.  [<])
-112 - r(T->T*F.  [-])
-112 > r(T->T*F.  [>])
-112 / r(T->T*F.  [/])
+112 ( s35
+112 digits s36
+112 id s34
 
-113 ) s114
-113 + s37
-113 - s38
+113 ( s56
+113 digits s57
+113 id s55
 
-114 == r(F->(E).  [==])
-114 * r(F->(E).  [*])
-114 + r(F->(E).  [+])
-114 < r(F->(E).  [<])
-114 - r(F->(E).  [-])
-114 > r(F->(E).  [>])
-114 / r(F->(E).  [/])
+114 ( s56
+114 digits s57
+114 id s55
 
-115 == r(T->T/F.  [==])
-115 * r(T->T/F.  [*])
-115 + r(T->T/F.  [+])
-115 < r(T->T/F.  [<])
-115 - r(T->T/F.  [-])
-115 > r(T->T/F.  [>])
-115 / r(T->T/F.  [/])
+115 ) r(C->E>E.  [)])
+115 + s38
+115 - s39
 
-116 == r(E->E-T.  [==])
-116 * s110
-116 + r(E->E-T.  [+])
-116 < r(E->E-T.  [<])
-116 - r(E->E-T.  [-])
-116 > r(E->E-T.  [>])
-116 / s111
+116 ) r(C->E<E.  [)])
+116 + s38
+116 - s39
 
-117 ; s118
+117 ) r(C->E==E.  [)])
+117 + s38
+117 - s39
 
-118 { r(D->ε.  [{])
-118 id r(D->ε.  [id])
-118 while r(D->ε.  [while])
-118 float s6
-118 if r(D->ε.  [if])
-118 int s5
+118 == r(E->E+T.  [==])
+118 * s119
+118 + r(E->E+T.  [+])
+118 < r(E->E+T.  [<])
+118 - r(E->E+T.  [-])
+118 > r(E->E+T.  [>])
+118 / s120
 
-119 id r(D->Lid;D.  [id])
-119 { r(D->Lid;D.  [{])
-119 while r(D->Lid;D.  [while])
-119 if r(D->Lid;D.  [if])
+119 ( s56
+119 digits s57
+119 id s55
+
+120 ( s56
+120 digits s57
+120 id s55
+
+121 == r(T->T*F.  [==])
+121 * r(T->T*F.  [*])
+121 + r(T->T*F.  [+])
+121 < r(T->T*F.  [<])
+121 - r(T->T*F.  [-])
+121 > r(T->T*F.  [>])
+121 / r(T->T*F.  [/])
+
+122 ) s123
+122 + s38
+122 - s39
+
+123 == r(F->(E).  [==])
+123 * r(F->(E).  [*])
+123 + r(F->(E).  [+])
+123 < r(F->(E).  [<])
+123 - r(F->(E).  [-])
+123 > r(F->(E).  [>])
+123 / r(F->(E).  [/])
+
+124 == r(T->T/F.  [==])
+124 * r(T->T/F.  [*])
+124 + r(T->T/F.  [+])
+124 < r(T->T/F.  [<])
+124 - r(T->T/F.  [-])
+124 > r(T->T/F.  [>])
+124 / r(T->T/F.  [/])
+
+125 == r(E->E-T.  [==])
+125 * s119
+125 + r(E->E-T.  [+])
+125 < r(E->E-T.  [<])
+125 - r(E->E-T.  [-])
+125 > r(E->E-T.  [>])
+125 / s120
+
+126 ( s22
+126 digits s23
+126 id s21
+
+127 ; s128
+127 + s25
+127 - s26
+
+128 else r(S->id=E;.  [else])
+128 { r(S->id=E;.  [{])
+128 id r(S->id=E;.  [id])
+128 while r(S->id=E;.  [while])
+128 } r(S->id=E;.  [}])
+128 if r(S->id=E;.  [if])
+
+129 ( s56
+129 digits s57
+129 id s55
+
+130 ) s131
+
+131 id r(M->ε.  [id])
+131 { r(M->ε.  [{])
+131 while r(M->ε.  [while])
+131 if r(M->ε.  [if])
+
+132 id s94
+132 { s97
+132 while s96
+132 if s95
+
+133 else r(N->ε.  [else])
+133 { r(S->if(C)MS.  [{])
+133 id r(S->if(C)MS.  [id])
+133 while r(S->if(C)MS.  [while])
+133 if r(S->if(C)MS.  [if])
+133 } r(S->if(C)MS.  [}])
+
+134 else s135
+
+135 id r(M->ε.  [id])
+135 { r(M->ε.  [{])
+135 while r(M->ε.  [while])
+135 if r(M->ε.  [if])
+
+136 id s94
+136 { s97
+136 while s96
+136 if s95
+
+137 else r(S->if(C)MSNelseMS.  [else])
+137 id r(S->if(C)MSNelseMS.  [id])
+137 { r(S->if(C)MSNelseMS.  [{])
+137 while r(S->if(C)MSNelseMS.  [while])
+137 if r(S->if(C)MSNelseMS.  [if])
+137 } r(S->if(C)MSNelseMS.  [}])
+
+138 ( s139
+
+139 ( s56
+139 digits s57
+139 id s55
+
+140 ) s141
+
+141 id r(M->ε.  [id])
+141 { r(M->ε.  [{])
+141 while r(M->ε.  [while])
+141 if r(M->ε.  [if])
+
+142 id s94
+142 { s97
+142 while s96
+142 if s95
+
+143 else r(S->whileM(C)MS.  [else])
+143 { r(S->whileM(C)MS.  [{])
+143 id r(S->whileM(C)MS.  [id])
+143 while r(S->whileM(C)MS.  [while])
+143 } r(S->whileM(C)MS.  [}])
+143 if r(S->whileM(C)MS.  [if])
+
+144 id r(M->ε.  [id])
+144 { r(M->ε.  [{])
+144 while r(M->ε.  [while])
+144 if r(M->ε.  [if])
+144 } s145
+
+145 else r(S->{K}.  [else])
+145 { r(S->{K}.  [{])
+145 id r(S->{K}.  [id])
+145 while r(S->{K}.  [while])
+145 if r(S->{K}.  [if])
+145 } r(S->{K}.  [}])
+
+146 ( s22
+146 digits s23
+146 id s21
+
+147 ; s148
+147 + s25
+147 - s26
+
+148 $ r(S->id=E;.  [$])
+148 else r(S->id=E;.  [else])
+148 { r(S->id=E;.  [{])
+148 id r(S->id=E;.  [id])
+148 while r(S->id=E;.  [while])
+148 if r(S->id=E;.  [if])
+
+149 ( s56
+149 digits s57
+149 id s55
+
+150 ) s151
+
+151 id r(M->ε.  [id])
+151 { r(M->ε.  [{])
+151 while r(M->ε.  [while])
+151 if r(M->ε.  [if])
+
+152 id s61
+152 { s64
+152 while s63
+152 if s62
+
+153 $ r(S->if(C)MS.  [$])
+153 else r(N->ε.  [else])
+153 { r(S->if(C)MS.  [{])
+153 id r(S->if(C)MS.  [id])
+153 while r(S->if(C)MS.  [while])
+153 if r(S->if(C)MS.  [if])
+
+154 else s155
+
+155 id r(M->ε.  [id])
+155 { r(M->ε.  [{])
+155 while r(M->ε.  [while])
+155 if r(M->ε.  [if])
+
+156 id s61
+156 { s64
+156 while s63
+156 if s62
+
+157 $ r(S->if(C)MSNelseMS.  [$])
+157 else r(S->if(C)MSNelseMS.  [else])
+157 id r(S->if(C)MSNelseMS.  [id])
+157 { r(S->if(C)MSNelseMS.  [{])
+157 while r(S->if(C)MSNelseMS.  [while])
+157 if r(S->if(C)MSNelseMS.  [if])
+
+158 ( s159
+
+159 ( s56
+159 digits s57
+159 id s55
+
+160 ) s161
+
+161 id r(M->ε.  [id])
+161 { r(M->ε.  [{])
+161 while r(M->ε.  [while])
+161 if r(M->ε.  [if])
+
+162 id s61
+162 { s64
+162 while s63
+162 if s62
+
+163 $ r(S->whileM(C)MS.  [$])
+163 else r(S->whileM(C)MS.  [else])
+163 { r(S->whileM(C)MS.  [{])
+163 id r(S->whileM(C)MS.  [id])
+163 while r(S->whileM(C)MS.  [while])
+163 if r(S->whileM(C)MS.  [if])
+
+164 id r(M->ε.  [id])
+164 { r(M->ε.  [{])
+164 while r(M->ε.  [while])
+164 if r(M->ε.  [if])
+164 } s165
+
+165 $ r(S->{K}.  [$])
+165 else r(S->{K}.  [else])
+165 { r(S->{K}.  [{])
+165 id r(S->{K}.  [id])
+165 while r(S->{K}.  [while])
+165 if r(S->{K}.  [if])
+
+166 ; s167
+
+167 id r(D->ε.  [id])
+167 { r(D->ε.  [{])
+167 while r(D->ε.  [while])
+167 float s6
+167 if r(D->ε.  [if])
+167 int s5
+
+168 id r(D->Lid;D.  [id])
+168 { r(D->Lid;D.  [{])
+168 while r(D->Lid;D.  [while])
+168 if r(D->Lid;D.  [if])
 
 

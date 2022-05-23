@@ -81,9 +81,6 @@ public class ActionTable {
         if (!actionTable.containsKey(id)) {
             actionTable.put(id, new HashMap<>());
         }
-        if (actionTable.get(id).containsKey(terminal)) {
-
-        }
         actionTable.get(id).put(terminal, newAction);
     }
 
