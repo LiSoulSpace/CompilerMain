@@ -46,7 +46,7 @@ public class Ex2UI {
         infoArea.setEditable(false);
         codeArea.setEditable(false);
         infoArea.setText("Information Output:\n");
-        groupsArea.setText("Groups:\n");
+        groupsArea.setText("Process:\n");
         firstSetArea.setText("first set : \n");
         followArea.setText("follow set : \n");
         actionArea.setText("ActionTable:\n");
@@ -68,10 +68,10 @@ public class Ex2UI {
                 followArea.setText("follow set : \n");
                 followArea.append(grammarTable.followSetToString());
                 codeArea.append("\n");
-                groupsArea.setText("Groups:\n");
+                groupsArea.setText("Process:\n");
                 LR1Set lr1Set = new LR1Set(grammarTable.getGrammars(), grammarTable.getFirstSet(), grammarTable.getFollowSet());
                 lr1Set.genItemGroups();
-                groupsArea.append(lr1Set.itemGroupToString());
+                //groupsArea.append(lr1Set.itemGroupToString());
                 actionArea.setText("ActionTable:\n");
                 actionArea.append(lr1Set.actionTableToString());
                 gotoArea.setText("GotoTable:\n");
@@ -80,6 +80,7 @@ public class Ex2UI {
                 LRParser lp = new LRParser(lr1Set);
                 System.out.println(lexer.getTokensToString());
                 boolean result = lp.parse(lexer.getTokenList());
+                groupsArea.append(lp.getProcess());
                 if (result)infoArea.append("Parse over and all right! No error!");
             } catch (IOException ex) {
                 throw new RuntimeException(ex);

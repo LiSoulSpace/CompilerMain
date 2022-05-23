@@ -19,11 +19,10 @@ public class Token {
             case "digits" -> {
                 SymbolTable.setItem(id, "type", "digits");
             }
-//            default -> {
-//                SymbolTable.setItem(id, " ", tag);
-//            }
+            case Tag.ID -> {
+                SymbolTable.setItem(id, "type", "id");
+            }
         }
-
     }
 
     public String getTag() {

@@ -1,6 +1,7 @@
 package xyz.soulspace;
 
 import xyz.soulspace.lexer.Lexer;
+import xyz.soulspace.symbols.SymbolTable;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,8 +18,8 @@ public class Ex1Main {
     public static void main(String[] args) throws IOException {
         File f = new File(RESOURCES_DIR + '/' + INPUT_FILE_NAME);
         Lexer lexer = new Lexer(f);
-        lexer.parse();
-        String tokensToString = lexer.getTokensToString();
-        System.out.println(tokensToString);
+        lexer.parse2();
+        System.out.println(lexer.getTokensToString());
+        System.out.println(SymbolTable.printSymbolTableToString());
     }
 }

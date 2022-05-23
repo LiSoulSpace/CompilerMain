@@ -16,16 +16,6 @@
           <text value="InputFile"/>
         </properties>
       </component>
-      <component id="168e7" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
-        <constraints>
-          <grid row="1" column="0" row-span="3" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
-        </constraints>
-        <properties>
-          <font size="22"/>
-        </properties>
-      </component>
       <component id="84f4a" class="javax.swing.JButton" binding="outputFileButton" default-binding="true">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -52,7 +42,22 @@
           <component id="8ef7a" class="javax.swing.JTextArea" binding="textArea2" default-binding="true">
             <constraints/>
             <properties>
-              <font size="24"/>
+              <font/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <scrollpane id="f040d">
+        <constraints>
+          <grid row="1" column="0" row-span="3" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="168e7" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
+            <constraints/>
+            <properties>
+              <font size="22"/>
             </properties>
           </component>
         </children>

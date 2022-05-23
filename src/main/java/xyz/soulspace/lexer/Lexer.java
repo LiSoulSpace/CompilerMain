@@ -18,7 +18,6 @@ public class Lexer {
     int srcLength = 0;
     String current = "";
     SymbolTable symbolTable = null;
-
     int cursor = 0;
 
     List<Token> tokenList;
@@ -60,7 +59,6 @@ public class Lexer {
         srcLength = srcBuffer.length();
         tokenList = new ArrayList<>();
         symbolTable = st;
-
     }
 
     public boolean parse() {
@@ -72,7 +70,27 @@ public class Lexer {
             switch (newToken.getTag()) {
                 case Tag.ERROR -> result = false;
                 case Tag.HLPCHR -> {
-                    continue;
+                }
+                default -> {
+                    tokenList.add(newToken);
+                }
+            }
+        }
+        return result;
+    }
+
+    public boolean parse2() {
+        tokenList.clear();
+        DFA dfa = new DFA();
+        boolean result = true;
+        while (cursor < srcLength) {
+            Token newToken = dfa.parseToken();
+            switch (newToken.getTag()) {
+                case Tag.ERROR -> {
+                    result = false;
+                    tokenList.add(newToken);
+                }
+                case Tag.HLPCHR -> {
                 }
                 default -> {
                     tokenList.add(newToken);
@@ -89,12 +107,17 @@ public class Lexer {
     public void setSrcBuffer(String srcBuffer) {
         this.srcBuffer = srcBuffer;
         srcLength = srcBuffer.length();
+        cursor = 0;
+        System.out.println(cursor + " " + srcLength);
     }
 
     public String getSrcBuffer() {
         return srcBuffer;
     }
 
+    /**
+     * 词法分析自动机
+     */
     public class DFA {
         enum State {
             start, numInteger, numFloat, word, charF
@@ -134,7 +157,7 @@ public class Lexer {
                                 cursor++;
                                 return new Token(Tag.HLPCHR);
                             } else {
-                                return new Token(Tag.ERROR);
+                                return new Error(Tag.ERROR, "Wrong symbol recognition");
                             }
                         }
                         break;
@@ -142,24 +165,28 @@ public class Lexer {
                         if (head == '.') {
                             sb.append('.');
                             curState = State.numFloat;
+                        } else if (Character.isWhitespace(head)) {
+                            return new IntNumber(Integer.parseInt(sb.toString()));
                         } else if (!Objects.equals(containsOperator(srcBuffer.substring(cursor, cursor + 1)).getTag(), Tag.ERROR)) {
                             return new IntNumber(Integer.parseInt(sb.toString()));
                         } else if (Character.isDigit(head)) {
                             sb.append(head);
                         } else {
-                            return new Token(Tag.ERROR);
+                            return new Error(Tag.ERROR, "Wrong int recognition");
                         }
                         break;
                     case numFloat:
                         if (head == '.') {
                             cursor++;
-                            return new Token(Tag.ERROR);
+                            return new Error(Tag.ERROR, "extra decimal point");
+                        } else if (Character.isWhitespace(head)) {
+                            return new FloatNumber(Float.parseFloat(sb.toString()));
                         } else if (!Objects.equals(containsOperator(srcBuffer.substring(cursor, cursor + 1)).getTag(), Tag.ERROR)) {
                             return new FloatNumber(Float.parseFloat(sb.toString()));
                         } else if (Character.isDigit(head)) {
                             sb.append(head);
                         } else {
-                            return new Token(Tag.ERROR);
+                            return new Error(Tag.ERROR, "Wrong float recognition!");
                         }
                         break;
                     case word:
@@ -184,15 +211,15 @@ public class Lexer {
                         if (Character.isDigit(head) || Character.isLetter(head) || head == '_') {
                             sb.append(head);
                         } else {
-                            return new Token(Tag.ERROR);
+                            return new Error(Tag.ERROR, "Wrong word recognition!");
                         }
                         break;
                     case charF:
                         if (isWhiteChar(head)) {
-                            return new Token(Tag.ERROR);
+                            return new Error(Tag.ERROR, "No right char!");
                         } else if (head == '\'') {
                             if (sb.length() == 1) {
-                                return new Token(Tag.ERROR);
+                                return new Error(Tag.ERROR, "Null character!");
                             } else if (sb.length() == 2) {
                                 sb.append('\'');
                                 cursor++;
@@ -208,7 +235,7 @@ public class Lexer {
                                 return new Token(Tag.ERROR);
                             } else if (sb.length() == 1) {
                                 sb.append(head);
-                            } else return new Token(Tag.ERROR);
+                            } else return new Error(Tag.ERROR, "Error with char!");
                         }
                         break;
                 }
@@ -224,23 +251,23 @@ public class Lexer {
         }
 
         public boolean isWhiteChar(char ch) {
-            return ch == ' ' || ch == '\n';
-        }
-    }
-
-    public void stdOutputTokens() {
-        for (Token token : tokenList) {
-            System.out.println(token);
+            return Character.isWhitespace(ch) && ch != ' ';
         }
     }
 
     public String getTokensToString() {
         StringBuilder sb = new StringBuilder();
         for (Token token : tokenList) {
-            sb.append(token.getTag()).append(" ").append(token.getValue()).append('\n');
+            String s = "";
+            if (token.getTag().equals("op")) {
+                if (((Operator) token).isDelimiter()) {
+                    s = "delimiter";
+                } else {
+                    s = token.getTag();
+                }
+            } else s = token.getTag();
+            sb.append(s).append(" ").append(token.getValue()).append('\n');
         }
         return sb.toString();
     }
-
-
 }

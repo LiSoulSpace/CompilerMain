@@ -13,7 +13,8 @@ public class GrammarTable {
     public static final String USER_DIR = System.getProperty("user.dir");
     public static final String RESOURCES_DIR = USER_DIR + "/src/main/resources";
     public static final String fir = "fir";
-    public static String grammarFileName = "Grammar_main.txt";
+    public static String grammarFileName = "Grammar_semantic.txt";
+//public static String grammarFileName = "Grammar_main.txt";
     public static Map<String, Nonterminal> nonterminalMap = new HashMap<>();
 
     public static List<String> nonterminalList = new ArrayList<>();
@@ -27,7 +28,7 @@ public class GrammarTable {
     private final FollowSet followSet;
     private String srcBuffer;
 
-    public GrammarTable(){
+    public GrammarTable() {
         grammars = new Grammars();
         firstSet = new FirstSet();
         followSet = new FollowSet();
@@ -39,7 +40,6 @@ public class GrammarTable {
     }
 
     public void cookGrammar() throws IOException {
-
         generateFullGrammar();
         genFirstSet();
         genFollowSet();
@@ -56,19 +56,16 @@ public class GrammarTable {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(f))) {
             String temp = "";
             List<String> grammarList = new ArrayList<>();
-
             while (true) {
                 temp = bufferedReader.readLine();
                 if (temp == null) break;
                 grammarList.add(temp);
             }
-
             for (String s : grammarList) {
                 String[] res = s.split("->");
                 String left = res[0].trim();
                 Nonterminal n = new Nonterminal(left);
             }
-
             for (String s : grammarList) {
                 String[] res = s.split("->");
                 String left = res[0].trim();
@@ -129,7 +126,6 @@ public class GrammarTable {
                     if (eleI != n) {
                         tempFirst.addAll(genFirstSet(eleI));
                     }
-
                     isEmpty = eleI.hasEmpty();
                     //System.out.println("CeShi:{" + n.tag + "}  " + eleI.tag + ":" + tempFirst + " " + isEmpty);
 

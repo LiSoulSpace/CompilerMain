@@ -22,7 +22,8 @@ public class Ex2Main {
     public static final String ITEM_GROUPS = "item_groups.txt";
     public static final String ACTION_TABLE = "action_table.txt";
     public static final String GOTO_TABLE = "goto_table.txt";
-
+    public static final String FIRST_SET = "first_set.txt";
+    public static final String FOLLOW_SET = "follow_set.txt";
     public static void main(String[] args) throws IOException {
         File f = new File(RESOURCES_DIR + '/' + INPUT_FILE_NAME);
         Lexer lexer = new Lexer(f);
@@ -32,10 +33,8 @@ public class Ex2Main {
 
         GrammarTable grammarTable = new GrammarTable();
         grammarTable.cookGrammar();
-        List<String> nonterminalList = GrammarTable.getNonterminalList();
-        System.out.println(nonterminalList);
-        List<String> terminalList = GrammarTable.getTerminalList();
-        System.out.println(terminalList);
+        FileOperation.printStringToFile(RESULT2_DIR + "/" + FIRST_SET, grammarTable.firstSetToString());
+        FileOperation.printStringToFile(RESULT2_DIR + "/" + FOLLOW_SET, grammarTable.followSetToString());
 
         LR1Set lr1Set = new LR1Set(grammarTable.getGrammars(), grammarTable.getFirstSet(), grammarTable.getFollowSet());
         lr1Set.genItemGroups();
@@ -43,7 +42,6 @@ public class Ex2Main {
         FileOperation.printStringToFile(RESULT2_DIR+"/"+ACTION_TABLE, lr1Set.actionTableToString());
         FileOperation.printStringToFile(RESULT2_DIR+"/"+GOTO_TABLE, lr1Set.gotoTableToString());
 
-        System.out.println(lr1Set.itemGroupToString());
         LRParser lp = new LRParser(lr1Set);
         boolean result = lp.parse(lexer.getTokenList());
         System.out.println(result);

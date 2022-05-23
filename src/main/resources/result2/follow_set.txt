@@ -1,12 +1,14 @@
 
-S:[$, else, id, {, while, }, if]
+S:[$, ε, id, {, while, }, if, N]
 C:[)]
 D:[id, {, while, if]
 T:[==, ), *, ;, +, <, -, >, /]
 E:[==, ), ;, +, <, -, >]
 F:[==, ), *, ;, +, <, -, >, /]
-K:[$, id, {, while, }, if]
+K:[$, ε, id, {, while, }, if]
 L:[id]
+M:[(, id, {, while, if]
+N:[else]
 P:[$]
 fir:[$]
 

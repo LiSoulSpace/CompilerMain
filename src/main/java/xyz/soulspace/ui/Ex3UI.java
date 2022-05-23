@@ -52,6 +52,8 @@ public class Ex3UI {
             }
             GrammarTable grammarTable = new GrammarTable(grammarFileName);
             try {
+                symbolTableArea.setText("");
+                lexer.setSrcBuffer(codeArea.getText());
                 grammarTable.cookGrammar();
                 codeArea.append("\n");
                 LR1Set lr1Set = new LR1Set(grammarTable.getGrammars(), grammarTable.getFirstSet(), grammarTable.getFollowSet());

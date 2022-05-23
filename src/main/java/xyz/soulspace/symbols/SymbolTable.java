@@ -13,6 +13,12 @@ public class SymbolTable {
 
     static Map<String, Properties> symbolTable = new HashMap<String, Properties>();
 
+    public static void addItem(String id) {
+        if (!symbolTable.containsKey(id)) {
+            symbolTable.put(id, new Properties());
+        }
+    }
+
     public static void setItem(String id, String property, String value) {
         if (!symbolTable.containsKey(id)) {
             symbolTable.put(id, new Properties());
@@ -22,11 +28,11 @@ public class SymbolTable {
             if (value.equals("int")) {
                 symbolTable.get(id).put("width", String.valueOf(4));
                 symbolTable.get(id).put("address", String.valueOf(size));
-                size+=4;
-            }else if (value.equals("float")){
+                size += 4;
+            } else if (value.equals("float")) {
                 symbolTable.get(id).put("width", String.valueOf(4));
                 symbolTable.get(id).put("address", String.valueOf(size));
-                size+=4;
+                size += 4;
             }
         }
     }

@@ -15,7 +15,6 @@ import java.util.Map;
 public class Rule {
     private static int labelNum = 1;
     private static int tNum = 1;
-    private static int lineNumber = 0;
 
     public static class Node {
         public String tag;

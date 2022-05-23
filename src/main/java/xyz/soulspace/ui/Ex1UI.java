@@ -29,9 +29,10 @@ public class Ex1UI {
         textArea2.setEditable(false);
         inputFileButton.addActionListener(e -> showFileOpenDialog(panel1, textArea1));
         outputFileButton.addActionListener(e -> {
+            textArea2.setText("");
             try {
                 Lexer lexer = new Lexer(textArea1.getText());
-                lexer.parse();
+                lexer.parse2();
                 textArea2.append(lexer.getTokensToString());
             } catch (IOException ex) {
                 throw new RuntimeException(ex);

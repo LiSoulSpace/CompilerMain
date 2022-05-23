@@ -15,6 +15,7 @@ import java.util.Stack;
 public class GrammarTree {
     public static class TreeNode extends Node {
         public List<TreeNode> children;
+        private TreeNode father;
 
         public TreeNode(SLRItem item, List<TreeNode> children) {
             super(item, children);
@@ -22,6 +23,14 @@ public class GrammarTree {
             if (children != null) {
                 this.children.addAll(children);
             }
+        }
+
+        public void setFather(TreeNode father) {
+            this.father = father;
+        }
+
+        public TreeNode getFather() {
+            return father;
         }
 
         public TreeNode(Token token) {
