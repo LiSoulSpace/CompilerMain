@@ -30,12 +30,14 @@ public class Rule {
         public Node(String tag) {
             this.tag = tag;
             properties = new HashMap<>();
+            properties2 = new HashMap<>();
         }
 
         public Node(SLRItem item, List<GrammarTree.TreeNode> children) {
             this(item.left.getTag());
             String code = "", place = "", type = "", next = "";
             if (VERSION == 2) {
+                System.out.println(item);
                 switch (item.left.getTag()) {
                     case "P" -> {
                         if (item.rightToString().equals("DMK")) {
@@ -45,7 +47,10 @@ public class Rule {
                     case "S" -> {
                         switch (item.rightToString()) {
                             case "id=E;" -> {
-
+                                String name = lookup((String) children.get(0).getValue2("name"));
+                                if (name == null) System.out.println("Error while finding [" +
+                                        children.get(0).getValue2("name") + "]");
+                                gen(name + "=" + (String) children.get(2).getValue2("addr"));
                             }
                             case "{K}" -> {
                                 setProperties2("nextList", children.get(1).getValue2("nextList"));
@@ -82,6 +87,10 @@ public class Rule {
                     case "M" -> {
                         setProperties2("quad", nextQuad);
                     }
+                    case "N" -> {
+                        setProperties2("nextList", makeList(nextQuad));
+                        gen("goto ");
+                    }
                     case "C" -> {
                         setProperties2("trueList", makeList(nextQuad));
                         setProperties2("falseList", makeList(nextQuad + 1));
@@ -115,8 +124,6 @@ public class Rule {
                     case "T" -> {
                         if (item.rightToString().equals("F")) {
                             setProperties2("addr", children.get(0).getValue2("addr"));
-                        } else if (item.rightToString().equals("(E)")) {
-                            setProperties2("addr", children.get(1).getValue2("addr"));
                         } else {
                             String addressT = genTemp();
                             setProperties2("addr", addressT);
@@ -126,6 +133,34 @@ public class Rule {
                             } else if (item.rightToString().equals("T/F")) {
                                 gen(addressT + "=" + children.get(0).getValue2("addr")
                                         + "/-" + children.get(2).getValue2("addr"));
+                            }
+                        }
+                    }
+                    case "F" -> {
+                        switch (item.rightToString()) {
+                            case "(E)" -> {
+                                setProperties2("addr", children.get(1).getValue2("addr"));
+                            }
+                            case "id" -> {
+                                setProperties2("addr", lookup((String) children.get(0).getValue2("name")));
+                            }
+                            case "digits" -> {
+                                //setProperties2("addr", );
+                            }
+                            default -> {
+
+                            }
+                        }
+                    }
+                    case "K" -> {
+                        switch (item.rightToString()) {
+                            case "S" -> {
+                                setProperties2("nextList", children.get(0).getValue2("nextList"));
+                            }
+                            case "KMS" -> {
+                                //setProperties2();
+                            }
+                            default -> {
                             }
                         }
                     }
@@ -317,7 +352,7 @@ public class Rule {
 
         public String lookup(String s) {
             if (SymbolTable.getProperties(s) == null) {
-                System.out.println("no" + s + " exist");
+                System.out.println("no " + s + " exist");
             }
             return s;
         }
@@ -394,5 +429,9 @@ public class Rule {
 
     public static int gettNum() {
         return tNum;
+    }
+
+    public static List<String> getThreeAddressCode() {
+        return threeAddressCode;
     }
 }

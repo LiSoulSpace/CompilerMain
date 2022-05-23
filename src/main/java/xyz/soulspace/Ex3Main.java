@@ -5,6 +5,7 @@ import xyz.soulspace.grammar.LR1Set;
 import xyz.soulspace.grammar.LRParser;
 import xyz.soulspace.lexer.Lexer;
 import xyz.soulspace.semantic.GrammarTree;
+import xyz.soulspace.semantic.Rule;
 import xyz.soulspace.symbols.SymbolTable;
 import xyz.soulspace.utils.FileOperation;
 
@@ -63,5 +64,6 @@ public class Ex3Main {
         System.out.println(grammarTree.genFullCode());
         FileOperation.printStringToFile(RESULT2_DIR + "/" + THREE_ADDRESS_CODE, grammarTree.genFullCode());
         System.out.println(SymbolTable.printSymbolTableToString());
+        System.out.println(Rule.getThreeAddressCode());
     }
 }

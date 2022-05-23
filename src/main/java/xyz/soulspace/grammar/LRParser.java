@@ -93,7 +93,7 @@ public class LRParser {
         statusStack.add(0);
         symbolStack.add(GrammarTable.END);
         int cursor = 0;
-        System.out.println(tokens);
+        //System.out.println(tokens);
         String terminal = tokens.get(cursor++).toTerminal();
         boolean isFinished = false;
         do {
@@ -110,22 +110,22 @@ public class LRParser {
                 case Action.ACTION_REDUCTION -> {
                     assert action.item != null;
                     if (Objects.equals(action.item.right[0], GrammarTable.EMPTY)) {
-                        System.out.println(action.groupID);
+                        //System.out.println(action.groupID);
                         statusStack.push(lrSet.gotoTable.go2(statusStack.peek(), action.item.left));
                         symbolStack.push(action.item.left.getTag());
                         grammarTree.pushGenStack(new TreeNode(tokens.get(cursor - 1)));
                         break;
                     } else {
-                        System.out.println(statusStack.peek());
+                        //System.out.println(statusStack.peek());
                         for (int i = 0; i < Objects.requireNonNull(action.item).right.length; ++i) {
                             statusStack.pop();
                             symbolStack.pop();
                             grammarTree.popGenStack2Workspace();
                         }
                     }
-                    System.out.println(action.item.left);
-                    System.out.printf("%s", "[" + statusStack.peek() + "-" + action.item.left + ']');
-                    System.out.println(lrSet.gotoTable.go2(statusStack.peek(), action.item.left));
+                    //System.out.println(action.item.left);
+                    //System.out.printf("%s", "[" + statusStack.peek() + "-" + action.item.left + ']');
+                    //System.out.println(lrSet.gotoTable.go2(statusStack.peek(), action.item.left));
                     statusStack.push(lrSet.gotoTable.go2(statusStack.peek(), action.item.left));
                     symbolStack.push(action.item.left.getTag());
                     grammarTree.addParent4Workspace(action.item);
