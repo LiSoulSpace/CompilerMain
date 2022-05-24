@@ -44,7 +44,7 @@ public class GrammarTree {
             for (TreeNode child : children) {
                 sb.append(child).append(",");
             }
-            return "TreeNode:" + super.toString() + "|children:" + sb;
+            return "TreeNode:" + super.toString() + "| children:" + sb;
         }
     }
 

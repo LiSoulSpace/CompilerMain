@@ -44,6 +44,24 @@ public class Rule {
 
                         }
                     }
+                    case "D" -> {
+                        if (item.rightToString().equals("Lid;D")) {
+                            SymbolTable.setItem((String) children.get(1).getValue2("name"), "type",
+                                    (String) children.get(0).getValue2("type"));
+                        }
+                    }
+                    case "L" -> {
+                        switch (item.rightToString()) {
+                            case "int" -> {
+                                setProperties2("type", "int");
+                            }
+                            case "float" -> {
+                                setProperties2("type", "float");
+                            }
+                            default -> {
+                            }
+                        }
+                    }
                     case "S" -> {
                         switch (item.rightToString()) {
                             case "id=E;" -> {
@@ -51,6 +69,7 @@ public class Rule {
                                 if (name == null) System.out.println("Error while finding [" +
                                         children.get(0).getValue2("name") + "]");
                                 gen(name + "=" + (String) children.get(2).getValue2("addr"));
+                                setProperties2("nextList", makeList(nextQuad));
                             }
                             case "{K}" -> {
                                 setProperties2("nextList", children.get(1).getValue2("nextList"));
@@ -63,6 +82,10 @@ public class Rule {
                                                 (List<Integer>) children.get(5).getValue2("nextList")));
                             }
                             case "if(C)MSNelseMS" -> {
+                                System.out.println(children.get(2).properties2);
+                                System.out.println(children.get(4).properties2);
+                                System.out.println(children.get(5).properties2);
+                                System.out.println(children.get(6).properties2);
                                 backPatch((List<Integer>) children.get(2).getValue2("trueList"),
                                         (int) children.get(4).getValue2("quad"));
                                 backPatch((List<Integer>) children.get(2).getValue2("falseList"),
@@ -83,13 +106,6 @@ public class Rule {
                             default -> {
                             }
                         }
-                    }
-                    case "M" -> {
-                        setProperties2("quad", nextQuad);
-                    }
-                    case "N" -> {
-                        setProperties2("nextList", makeList(nextQuad));
-                        gen("goto ");
                     }
                     case "C" -> {
                         setProperties2("trueList", makeList(nextQuad));
@@ -145,7 +161,7 @@ public class Rule {
                                 setProperties2("addr", lookup((String) children.get(0).getValue2("name")));
                             }
                             case "digits" -> {
-                                //setProperties2("addr", );
+                                setProperties2("addr", children.get(0).getValue2("value"));
                             }
                             default -> {
 
@@ -158,14 +174,13 @@ public class Rule {
                                 setProperties2("nextList", children.get(0).getValue2("nextList"));
                             }
                             case "KMS" -> {
-                                //setProperties2();
+                                setProperties2("nextList", children.get(2).getValue2("nextList"));
                             }
                             default -> {
                             }
                         }
                     }
                     default -> {
-
                     }
                 }
             } else if (VERSION == 1) {
@@ -332,12 +347,28 @@ public class Rule {
             this(token.toTerminal());
             properties = new HashMap<>();
             switch (token.getTag()) {
-                case Tag.ID -> setProperty("name", token.getValue());
-                case Tag.NUM -> setProperty("value", token.getValue());
+                case Tag.ID -> {
+                    setProperty("name", token.getValue());
+                    setProperties2("name", token.getValue());
+                }
+                case Tag.NUM -> {
+                    setProperty("value", token.getValue());
+                    setProperties2("value", token.getValue());
+                }
                 case Tag.KEYWORD -> {
                     if (Keyword.WHILE.equals(token.getValue())) {
                         setProperty("root", "");
+                        setProperties2("root", "");
                     }
+                }
+                case "M" -> {
+                    System.out.println("M");
+                    setProperties2("quad", nextQuad);
+                }
+                case "N" -> {
+                    System.out.println(nextQuad);
+                    setProperties2("nextList", makeList(nextQuad));
+                    gen("goto ");
                 }
                 default -> {
                 }
@@ -345,8 +376,10 @@ public class Rule {
         }
 
         public void backPatch(List<Integer> list, int m) {
+            System.out.println(Arrays.toString(list.toArray()));
             list.forEach(i -> {
-                threeAddressCode.set(i, threeAddressCode.get(i) + String.valueOf(m));
+                if (threeAddressCode.size() <= i) {
+                } else threeAddressCode.set(i, threeAddressCode.get(i) + m);
             });
         }
 

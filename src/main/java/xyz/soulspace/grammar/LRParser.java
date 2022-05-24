@@ -4,6 +4,7 @@ import xyz.soulspace.lexer.Token;
 import xyz.soulspace.grammar.ActionTable.Action;
 import xyz.soulspace.semantic.GrammarTree;
 import xyz.soulspace.semantic.GrammarTree.TreeNode;
+import xyz.soulspace.semantic.Rule;
 
 import java.util.Arrays;
 import java.util.List;
@@ -113,7 +114,14 @@ public class LRParser {
                         //System.out.println(action.groupID);
                         statusStack.push(lrSet.gotoTable.go2(statusStack.peek(), action.item.left));
                         symbolStack.push(action.item.left.getTag());
-                        grammarTree.pushGenStack(new TreeNode(tokens.get(cursor - 1)));
+//                        System.out.println("------------" + action.item + "----------");
+//                        System.out.println("+++++++++++++" + tokens.get(cursor - 1) + "+++++++++++++++++++");
+                        if (Rule.VERSION == 1) {
+                            grammarTree.pushGenStack(new TreeNode(tokens.get(cursor - 1)));
+                        } else if (Rule.VERSION == 2) {
+                            System.out.println("-----------"+symbolStack.peek());
+                            grammarTree.pushGenStack(new TreeNode(new Token(symbolStack.peek())));
+                        }
                         break;
                     } else {
                         //System.out.println(statusStack.peek());
@@ -123,9 +131,6 @@ public class LRParser {
                             grammarTree.popGenStack2Workspace();
                         }
                     }
-                    //System.out.println(action.item.left);
-                    //System.out.printf("%s", "[" + statusStack.peek() + "-" + action.item.left + ']');
-                    //System.out.println(lrSet.gotoTable.go2(statusStack.peek(), action.item.left));
                     statusStack.push(lrSet.gotoTable.go2(statusStack.peek(), action.item.left));
                     symbolStack.push(action.item.left.getTag());
                     grammarTree.addParent4Workspace(action.item);
