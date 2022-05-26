@@ -51,7 +51,7 @@ public class GrammarTable {
      * @throws IOException IOException
      */
     private void generateFullGrammar() throws IOException {
-        String grammarFilePath = RESOURCES_DIR + '/' + grammarFileName;
+        String grammarFilePath = grammarFileName;
         File f = new File(grammarFilePath);
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(f))) {
             String temp = "";
@@ -69,7 +69,7 @@ public class GrammarTable {
             for (String s : grammarList) {
                 String[] res = s.split("->");
                 String left = res[0].trim();
-                String[] right = res[1].trim().split("\\|");
+                String[] right = res[1].replaceAll("\\$", GrammarTable.EMPTY).trim().split("\\|");
                 for (int i = 0; i < right.length; i++) {
                     String[] split = right[i].trim().split(" ");
                     if (split.length == 0) continue;

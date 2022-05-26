@@ -62,7 +62,7 @@ public class Ex3Main {
         boolean result = lp.parse(lexer.getTokenList(), grammarTree);
         System.out.println(result);
         System.out.println(grammarTree.genFullCode());
-        FileOperation.printStringToFile(RESULT2_DIR + "/" + THREE_ADDRESS_CODE, grammarTree.genFullCode());
+        FileOperation.printStringToFile(RESULT2_DIR + "/" + THREE_ADDRESS_CODE, Rule.threeAddressToString());
         System.out.println(SymbolTable.printSymbolTableToString());
         System.out.println(Rule.threeAddressToString());
     }

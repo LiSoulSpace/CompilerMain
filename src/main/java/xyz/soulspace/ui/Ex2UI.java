@@ -1,9 +1,11 @@
 package xyz.soulspace.ui;
 
+import xyz.soulspace.Ex2Main;
 import xyz.soulspace.grammar.GrammarTable;
 import xyz.soulspace.grammar.LR1Set;
 import xyz.soulspace.grammar.LRParser;
 import xyz.soulspace.lexer.Lexer;
+import xyz.soulspace.utils.FileOperation;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -37,8 +39,8 @@ public class Ex2UI {
     private Lexer lexer;
 
     public Ex2UI() throws IOException {
-
         lexer = new Lexer();
+        System.out.println("Ex2UI\n");
         inputGrammarButton.addActionListener(e -> {
             showFileOpenDialog(panel1, inputArea);
             infoArea.append("Open grammar file: " + grammarFileName + '\n');
@@ -50,6 +52,9 @@ public class Ex2UI {
             GrammarTable grammarTable = new GrammarTable(grammarFileName);
             try {
                 grammarTable.cookGrammar();
+                FileOperation.printStringToFile(Ex2Main.MAIN_DIR + "/outfiles/" + Ex2Main.FIRST_SET, grammarTable.firstSetToString());
+                FileOperation.printStringToFile(Ex2Main.MAIN_DIR + "/outfiles/" + Ex2Main.FOLLOW_SET, grammarTable.followSetToString());
+
                 firstSetArea.setText("first set : \n");
                 firstSetArea.append(grammarTable.firstSetToString());
                 followArea.setText("follow set : \n");
@@ -58,6 +63,9 @@ public class Ex2UI {
                 groupsArea.setText("Process:\n");
                 LR1Set lr1Set = new LR1Set(grammarTable.getGrammars(), grammarTable.getFirstSet(), grammarTable.getFollowSet());
                 lr1Set.genItemGroups();
+                FileOperation.printStringToFile(Ex2Main.MAIN_DIR+"/outfiles/"+Ex2Main.ITEM_GROUPS, lr1Set.itemGroupToString());
+                FileOperation.printStringToFile(Ex2Main.MAIN_DIR+"/outfiles/"+Ex2Main.ACTION_TABLE, lr1Set.actionTableToString());
+                FileOperation.printStringToFile(Ex2Main.MAIN_DIR+"/outfiles/"+Ex2Main.GOTO_TABLE, lr1Set.gotoTableToString());
                 //groupsArea.append(lr1Set.itemGroupToString());
                 actionArea.setText("ActionTable:\n");
                 actionArea.append(lr1Set.actionTableToString());
@@ -68,6 +76,7 @@ public class Ex2UI {
                 System.out.println(lexer.getTokensToString());
                 boolean result = lp.parse(lexer.getTokenList());
                 groupsArea.append(lp.getProcess());
+                FileOperation.printStringToFile(Ex2Main.MAIN_DIR+"/outfiles/process.txt", lp.getProcess());
                 if (result)infoArea.append("Parse over and all right! No error!");
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -137,9 +146,9 @@ public class Ex2UI {
                 e.printStackTrace();
             }
 
-            this.grammarFileName = file.getName();
+            this.grammarFileName = file.getPath();
 
-            msgTextArea.setText(sb.toString() + "\n");
+            msgTextArea.setText(sb.toString().replaceAll("\\$", GrammarTable.EMPTY) + "\n");
         }
     }
 

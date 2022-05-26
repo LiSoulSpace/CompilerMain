@@ -1,5 +1,7 @@
 package xyz.soulspace.ui;
 
+import xyz.soulspace.Ex2Main;
+import xyz.soulspace.Ex3Main;
 import xyz.soulspace.grammar.GrammarTable;
 import xyz.soulspace.grammar.LR1Set;
 import xyz.soulspace.grammar.LRParser;
@@ -7,6 +9,7 @@ import xyz.soulspace.lexer.Lexer;
 import xyz.soulspace.semantic.GrammarTree;
 import xyz.soulspace.semantic.Rule;
 import xyz.soulspace.symbols.SymbolTable;
+import xyz.soulspace.utils.FileOperation;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -30,11 +33,11 @@ public class Ex3UI {
     private JButton outputButton;
     private String grammarFileName;
     private String codeFileName;
-    private Lexer lexer;
+    private final Lexer lexer;
 
     public Ex3UI() throws IOException {
         this.lexer = new Lexer();
-
+        System.out.println("Ex3UI\n");
         grammarInputButton.addActionListener(e -> {
             showFileOpenDialog(panel1, grammarArea);
             infoArea.append("Open grammar file: " + grammarFileName + '\n');
@@ -54,18 +57,24 @@ public class Ex3UI {
                 symbolTableArea.setText("");
                 lexer.setSrcBuffer(codeArea.getText());
                 grammarTable.cookGrammar();
+                FileOperation.printStringToFile(Ex2Main.MAIN_DIR + "/outfiles/" + Ex2Main.FIRST_SET, grammarTable.firstSetToString());
+                FileOperation.printStringToFile(Ex2Main.MAIN_DIR + "/outfiles/" + Ex2Main.FOLLOW_SET, grammarTable.followSetToString());
                 codeArea.append("\n");
                 LR1Set lr1Set = new LR1Set(grammarTable.getGrammars(), grammarTable.getFirstSet(), grammarTable.getFollowSet());
                 lr1Set.genItemGroups();
                 GrammarTree grammarTree = new GrammarTree();
                 lexer.parse();
                 LRParser lp = new LRParser(lr1Set);
-                System.out.println(lexer.getTokensToString());
+                FileOperation.printStringToFile(Ex2Main.MAIN_DIR + "/outfiles/" + Ex2Main.ITEM_GROUPS, lr1Set.itemGroupToString());
+                FileOperation.printStringToFile(Ex2Main.MAIN_DIR + "/outfiles/" + Ex2Main.ACTION_TABLE, lr1Set.actionTableToString());
+                FileOperation.printStringToFile(Ex2Main.MAIN_DIR + "/outfiles/" + Ex2Main.GOTO_TABLE, lr1Set.gotoTableToString());
                 boolean result = lp.parse(lexer.getTokenList(), grammarTree);
                 if (result) {
                     infoArea.append("Parse over and all right! No error!");
                     threeAddressArea.append(Rule.threeAddressToString());
                     symbolTableArea.append(SymbolTable.printSymbolTableToString());
+                    FileOperation.printStringToFile(Ex2Main.MAIN_DIR + "/outfiles/" + Ex3Main.THREE_ADDRESS_CODE, Rule.threeAddressToString());
+                    FileOperation.printStringToFile(Ex2Main.MAIN_DIR + "/outfiles/symbolTable" + SymbolTable.printSymbolTableToString());
                 }
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -117,8 +126,8 @@ public class Ex3UI {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            this.grammarFileName = file.getName();
-            msgTextArea.setText(sb.toString() + "\n");
+            this.grammarFileName = file.getPath();
+            msgTextArea.setText(sb.toString().replaceAll("\\$", GrammarTable.EMPTY) + "\n");
         }
     }
 
@@ -149,6 +158,7 @@ public class Ex3UI {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
 
             this.codeFileName = file.getName();
 

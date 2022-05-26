@@ -1,5 +1,6 @@
 package xyz.soulspace.ui;
 
+import xyz.soulspace.Ex2Main;
 import xyz.soulspace.lexer.Lexer;
 import xyz.soulspace.utils.FileOperation;
 
@@ -26,7 +27,6 @@ public class Ex1UI {
     private JTextField textField1;
 
     public Ex1UI() {
-
         inputFileButton.addActionListener(e -> showFileOpenDialog(panel1, textArea1));
         outputFileButton.addActionListener(e -> {
             textArea2.setText("");
@@ -34,6 +34,7 @@ public class Ex1UI {
                 Lexer lexer = new Lexer(textArea1.getText());
                 lexer.parse2();
                 textArea2.append(lexer.getTokensToString());
+                FileOperation.printStringToFile(Ex2Main.MAIN_DIR+"/outfiles/tokens.txt", lexer.getTokensToString());
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

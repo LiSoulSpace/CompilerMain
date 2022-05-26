@@ -1,0 +1,29 @@
+
+0 a=2
+1 b='c'
+2 d=2.2
+3 if a>b goto 5
+4 goto 10
+5 t1=a+b
+6 c=t1
+7 t2=c+c
+8 c=t2
+9 goto 17
+10 t3=a-b
+11 c=t3
+12 if c<5 goto 14
+13 goto 21
+14 t4=c-1
+15 c=t4
+16 goto 12
+17 if a>b goto 19
+18 goto 25
+19 t5=a+1
+20 a=t5
+21 if a<b goto 23
+22 goto 27
+23 t6=b-1
+24 b=t6
+25 t7=c-1
+26 c=t7
+
