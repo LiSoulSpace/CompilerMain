@@ -41,7 +41,7 @@ public class Rule {
                 switch (item.left.getTag()) {
                     case "P" -> {
                         if (item.rightToString().equals("DMK")) {
-
+                            //backPatch((List<Integer>) children.get(2).getValue2("nextList"), nextQuad);
                         }
                     }
                     case "D" -> {
@@ -69,7 +69,7 @@ public class Rule {
                                 if (name == null) System.out.println("Error while finding [" +
                                         children.get(0).getValue2("name") + "]");
                                 gen(name + "=" + (String) children.get(2).getValue2("addr"));
-                                setProperties2("nextList", makeList(nextQuad));
+                                setProperties2("nextList", null);
                             }
                             case "{K}" -> {
                                 setProperties2("nextList", children.get(1).getValue2("nextList"));
@@ -112,13 +112,13 @@ public class Rule {
                         setProperties2("falseList", makeList(nextQuad + 1));
                         if (item.rightToString().equals("E>E")) {
                             gen("if " + (String) children.get(0).getValue2("addr")
-                                    + ">" + (String) children.get(2).getValue2("addr") + "goto ");
+                                    + ">" + (String) children.get(2).getValue2("addr") + " goto ");
                         } else if (item.rightToString().equals("E<E")) {
                             gen("if " + (String) children.get(0).getValue2("addr")
-                                    + "<" + (String) children.get(2).getValue2("addr") + "goto ");
+                                    + "<" + (String) children.get(2).getValue2("addr") + " goto ");
                         } else if (item.rightToString().equals("E==E")) {
                             gen("if " + (String) children.get(0).getValue2("addr")
-                                    + "==" + (String) children.get(2).getValue2("addr") + "goto ");
+                                    + "==" + (String) children.get(2).getValue2("addr") + " goto ");
                         }
                         gen("goto ");
                     }
@@ -174,6 +174,7 @@ public class Rule {
                                 setProperties2("nextList", children.get(0).getValue2("nextList"));
                             }
                             case "KMS" -> {
+                                backPatch((List<Integer>) children.get(0).getValue2("nextList"), nextQuad);
                                 setProperties2("nextList", children.get(2).getValue2("nextList"));
                             }
                             default -> {
@@ -376,6 +377,7 @@ public class Rule {
         }
 
         public void backPatch(List<Integer> list, int m) {
+            if (list==null)return;
             System.out.println(Arrays.toString(list.toArray()));
             list.forEach(i -> {
                 if (threeAddressCode.size() <= i) {
@@ -398,8 +400,8 @@ public class Rule {
 
         public List<Integer> merge(List<Integer> list1, List<Integer> list2) {
             List<Integer> list = new ArrayList<>();
-            list.addAll(list1);
-            list.addAll(list2);
+            if (list1 != null) list.addAll(list1);
+            if (list2 != null) list.addAll(list2);
             return list;
         }
 
@@ -466,5 +468,13 @@ public class Rule {
 
     public static List<String> getThreeAddressCode() {
         return threeAddressCode;
+    }
+
+    public static String threeAddressToString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < threeAddressCode.size(); i++) {
+            sb.append(i).append(" ").append(threeAddressCode.get(i)).append('\n');
+        }
+        return sb.toString();
     }
 }

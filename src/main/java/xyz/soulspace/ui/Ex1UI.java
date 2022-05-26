@@ -26,7 +26,7 @@ public class Ex1UI {
     private JTextField textField1;
 
     public Ex1UI() {
-        textArea2.setEditable(false);
+
         inputFileButton.addActionListener(e -> showFileOpenDialog(panel1, textArea1));
         outputFileButton.addActionListener(e -> {
             textArea2.setText("");
@@ -38,6 +38,7 @@ public class Ex1UI {
                 throw new RuntimeException(ex);
             }
         });
+        textArea2.setEditable(false);
     }
 
     public static void main(String[] args) {
@@ -47,6 +48,7 @@ public class Ex1UI {
         frame.setLocationRelativeTo(null); // 窗口居中
         frame.pack();
         frame.setSize(500, 500);
+
         frame.setVisible(true);
     }
 

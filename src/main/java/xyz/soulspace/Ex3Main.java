@@ -64,6 +64,6 @@ public class Ex3Main {
         System.out.println(grammarTree.genFullCode());
         FileOperation.printStringToFile(RESULT2_DIR + "/" + THREE_ADDRESS_CODE, grammarTree.genFullCode());
         System.out.println(SymbolTable.printSymbolTableToString());
-        System.out.println(Rule.getThreeAddressCode());
+        System.out.println(Rule.threeAddressToString());
     }
 }

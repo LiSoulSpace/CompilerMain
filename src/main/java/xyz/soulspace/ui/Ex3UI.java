@@ -5,6 +5,7 @@ import xyz.soulspace.grammar.LR1Set;
 import xyz.soulspace.grammar.LRParser;
 import xyz.soulspace.lexer.Lexer;
 import xyz.soulspace.semantic.GrammarTree;
+import xyz.soulspace.semantic.Rule;
 import xyz.soulspace.symbols.SymbolTable;
 
 import javax.swing.*;
@@ -33,9 +34,7 @@ public class Ex3UI {
 
     public Ex3UI() throws IOException {
         this.lexer = new Lexer();
-        threeAddressArea.setEditable(false);
-        symbolTableArea.setEditable(false);
-        infoArea.setEditable(false);
+
         grammarInputButton.addActionListener(e -> {
             showFileOpenDialog(panel1, grammarArea);
             infoArea.append("Open grammar file: " + grammarFileName + '\n');
@@ -65,13 +64,16 @@ public class Ex3UI {
                 boolean result = lp.parse(lexer.getTokenList(), grammarTree);
                 if (result) {
                     infoArea.append("Parse over and all right! No error!");
-                    threeAddressArea.append(grammarTree.genFullCode());
+                    threeAddressArea.append(Rule.threeAddressToString());
                     symbolTableArea.append(SymbolTable.printSymbolTableToString());
                 }
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         });
+        threeAddressArea.setEditable(false);
+        symbolTableArea.setEditable(false);
+        infoArea.setEditable(false);
     }
 
     public static void main(String[] args) throws IOException {

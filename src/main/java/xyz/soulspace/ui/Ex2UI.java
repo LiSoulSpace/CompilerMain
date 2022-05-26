@@ -37,20 +37,7 @@ public class Ex2UI {
     private Lexer lexer;
 
     public Ex2UI() throws IOException {
-        firstSetArea.setEditable(false);
-        followArea.setEditable(false);
-        codeArea.setEditable(false);
-        groupsArea.setEditable(false);
-        actionArea.setEditable(false);
-        gotoArea.setEditable(false);
-        infoArea.setEditable(false);
-        codeArea.setEditable(false);
-        infoArea.setText("Information Output:\n");
-        groupsArea.setText("Process:\n");
-        firstSetArea.setText("first set : \n");
-        followArea.setText("follow set : \n");
-        actionArea.setText("ActionTable:\n");
-        gotoArea.setText("GotoTable:\n");
+
         lexer = new Lexer();
         inputGrammarButton.addActionListener(e -> {
             showFileOpenDialog(panel1, inputArea);
@@ -92,6 +79,20 @@ public class Ex2UI {
             lexer.setSrcBuffer(codeArea.getText());
             System.out.println(lexer.getSrcBuffer());
         });
+        firstSetArea.setEditable(false);
+        followArea.setEditable(false);
+        codeArea.setEditable(false);
+        groupsArea.setEditable(false);
+        actionArea.setEditable(false);
+        gotoArea.setEditable(false);
+        infoArea.setEditable(false);
+        codeArea.setEditable(false);
+        infoArea.setText("Information Output:\n");
+        groupsArea.setText("Process:\n");
+        firstSetArea.setText("first set : \n");
+        followArea.setText("follow set : \n");
+        actionArea.setText("ActionTable:\n");
+        gotoArea.setText("GotoTable:\n");
     }
 
     public static void main(String[] args) throws IOException{
